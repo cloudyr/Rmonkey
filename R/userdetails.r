@@ -16,5 +16,5 @@ userdetails <- function(
     content <- content(out, as='parsed')
     if(content$status==3)
         warning("An error occurred: ",content$errmsg)
-    structure(content, class='sm_userdetails')
+    structure(content$data$user_details, class='sm_userdetails')
 }

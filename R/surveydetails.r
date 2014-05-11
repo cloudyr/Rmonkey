@@ -22,11 +22,5 @@ surveydetails <- function(
         warning("An error occurred: ",content$errmsg)
         return(content)
     } else
-        structure(content, class='sm_surveydetails')
-}
-
-
-print.sm_surveydetails <- function(x, ...){
-    #
-    invisible(x)
+        structure(content, class='sm_survey')
 }

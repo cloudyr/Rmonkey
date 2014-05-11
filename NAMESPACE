@@ -10,5 +10,12 @@ export('getresponses')
 export('templates')
 export('createsurvey')
 
+S3method(print, 'sm_survey')
+S3method(print, 'sm_collector')
+S3method(print, 'sm_respondent')
+S3method(print, 'sm_response')
+S3method(print, 'sm_template')
+
+importFrom('RCurl', 'curlEscape')
 import('httr')
 import('RJSONIO')

@@ -3,11 +3,11 @@
 \title{Create a new collector}
 \description{Create a new weblink or email collector for a survey}
 \usage{
-collectors(survey, name, type = 'weblink',
-           recipients = NULL, email_reply = NULL,
-           email_subject = NULL, email_body = NULL,
-           api_key = getOption('sm_api_key'),
-           oauth_token = getOption('sm_oauth_token'))
+createcollector(survey, name, type = 'weblink',
+                recipients = NULL, email_reply = NULL,
+                email_subject = NULL, email_body = NULL,
+                api_key = getOption('sm_api_key'),
+                oauth_token = getOption('sm_oauth_token'))
 }
 \arguments{
 \item{survey}{A Survey Monkey survey ID number, possibly returned by \code{\link{surveylist}}.}
@@ -34,11 +34,12 @@ collectors(survey, name, type = 'weblink',
 \dontrun{
 smlogin()
 s <- surveylist()
-# weblink
-createcollector(s[1], 'survey link', type='weblink')
 
-# email list
-createcollector(s[1], 'Emails', type='email', 
+# weblink collector
+createcollector(s[[1]]$survey_id, 'survey link', type='weblink')
+
+# email list collector
+createcollector(s[[1]]$survey_id, 'Emails', type='email', 
     recipients = list('first@example.com', 'second@example.com'),
     email_reply='me@example.com', email_subject='Please complete a short survey!')
 }

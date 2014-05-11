@@ -21,8 +21,9 @@ Maintainer: Thomas J. Leeper <thosjleeper@gmail.com>
 }
 \references{
 \href{https://developer.surveymonkey.com/Home}{API Documentation}
+
+\href{https://developer.surveymonkey.com/mashery/data_types}{Documentation of variable values used in responses}
 }
 \keyword{ package }
 %\seealso{}
 %\examples{}
-

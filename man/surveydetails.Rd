@@ -1,11 +1,10 @@
 \name{surveydetails}
 \alias{surveydetails}
-\alias{print.sm_surveydetails}
 \title{Get survey details}
 \description{Get details about a specific survey}
 \usage{
-collectors(survey, api_key = getOption('sm_api_key'),
-           oauth_token = getOption('sm_oauth_token'))
+surveydetails(survey, api_key = getOption('sm_api_key'),
+              oauth_token = getOption('sm_oauth_token'))
 }
 \arguments{
 \item{survey}{A Survey Monkey survey ID number, possibly returned by \code{\link{surveylist}}.}
@@ -14,7 +13,7 @@ collectors(survey, api_key = getOption('sm_api_key'),
 %  \item{...}{Other arguments. Currently ignored.}
 }
 \details{Retrieves details of a specified survey (e.g., question metadata). Surveys with over 200 survey pages will not be returned. Surveys with over 200 questions will not be returned.}
-\value{A list of objects of class \code{sm_surveydetails}.}
+\value{A list of objects of class \code{sm_survey}.}
 \references{
 \url{https://developer.surveymonkey.com/mashery/get_survey_details}
 }
@@ -25,7 +24,7 @@ collectors(survey, api_key = getOption('sm_api_key'),
 \dontrun{
 smlogin()
 s <- surveylist()
-surveydetails(s[1])
+surveydetails(s[[1]]$survey_id)
 }
 }
 %\keyword{}

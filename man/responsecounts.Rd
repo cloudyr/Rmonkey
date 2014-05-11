@@ -24,7 +24,7 @@ responsecounts(collector, api_key = getOption('sm_api_key'),
 \dontrun{
 smlogin()
 s <- surveylist()
-lapply(collectors(s[1]), responsecounts)
+lapply(collectors(s[[1]]$survey_id), function(x) responsecounts(x$collector_id))
 }
 }
 %\keyword{}

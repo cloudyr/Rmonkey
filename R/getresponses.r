@@ -13,8 +13,10 @@ getresponses <- function(
         token <- paste('bearer', oauth_token)
     else
         stop("Must specify 'oauth_token'")
-    if(length(respondents)>100)
+    if(length(respondents)>100){
+        respondents <- head(respondents, 100)
         warning("Maximum number of respondents exceeded. Only first 100 used.")
+    }
     h <- add_headers(Authorization=token,
                      'Content-Type'='application/json')
     b <- toJSON(list(survey_id = survey, respondent_ids = as.list(respondents)))
@@ -28,8 +30,11 @@ getresponses <- function(
         lapply(content$data, `class<-`, 'sm_response')
 }
 
-
 print.sm_response <- function(x, ...){
-    #
-    invisible(x)
+    if(!is.null(x$respondent_id))
+        cat('Responent ID:',x$respondent_id,'\n')
+    if(!is.null(x$questions))
+        cat(length(x$questions),'Questions','\n')
+    # THIS SHOULD PROBABLY DO SOMETHING BETTER
+    return(x)
 }

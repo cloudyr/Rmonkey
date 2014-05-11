@@ -1,11 +1,10 @@
 ## THIS IS NOT WORKING YET...
 
-
 createsurvey <- function(
     template = NULL,
-    survey = NULL, # must specify 'template' or 'survey'
+    survey = NULL,
     title,
-    name,
+    collector_name,
     type = 'email', # only 'email' is allowed
     recipients = NULL,
     email_reply = NULL,
@@ -24,6 +23,10 @@ createsurvey <- function(
     else
         stop("Must specify 'oauth_token'")
     # handle recipients list
+    if(length(recipients)>10000){
+        respondents <- head(recipients, 10000)
+        warning("Maximum number of recipients exceeded. Only first 10000 used.")
+    }
     recipients <- lapply(recipients, function(x){
         if(is.null(names(x))) {
             if(length(x)==1)
@@ -42,7 +45,8 @@ createsurvey <- function(
         stop("Only 'template' xor 'survey' is allowed.")
     } else if(!is.null(template)){
         b <- list(template_id = template, survey_title = title,
-                  collector = list(type = type, name = name, recipients = recipients),
+                  collector = list(type = type, name = collector_name,
+                                   recipients = recipients),
                   email_message = if(is.null(email_body)) {
                   list(reply_email = email_reply, subject = email_subject)
                   } else { list(reply_email = email_reply,
@@ -50,7 +54,8 @@ createsurvey <- function(
                                             body = email_body)})
     } else if(!is.null(survey)){
         b <- list(from_survey_id = survey, survey_title = title,
-                  collector = list(type = type, name = name, recipients = recipients),
+                  collector = list(type = type, name = collector_name,
+                                   recipients = recipients),
                   email_message = if(is.null(email_body)) {
                   list(reply_email = email_reply, subject = email_subject)
                   } else { list(reply_email = email_reply,
@@ -59,8 +64,7 @@ createsurvey <- function(
     }
     b <- toJSON(list(survey=b))
     #return(b)
-    h <- add_headers(Authorization=token,
-                     'Content-Type'='application/json')
+    h <- add_headers(Authorization=token, 'Content-Type'='application/json')
     out <- POST(u, config = h, body = b)
     stop_for_status(out)
     content <- content(out, as='parsed')

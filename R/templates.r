@@ -45,6 +45,35 @@ templates <- function(
 }
 
 print.sm_template <- function(x,...){
-    # set fields
+    if(!is.null(x$title))
+        cat('Title:',x$title,'\n')
+    if(!is.null(x$short_description))
+        cat('Description:',x$short_description,'\n')
+    #if(!is.null(x$long_description))
+    #    cat(x$long_description,'\n')
+    if(!is.null(x$language_id))
+        cat(x$language_id,'\n')
+    if(!is.null(x$is_available_to_current_user))
+        cat('Available?',x$is_available_to_current_user,'\n')
+    if(!is.null(x$is_featured))
+        cat('Featured? ',x$is_featured,'\n')
+    if(!is.null(x$is_certified))
+        cat('Certified?',x$is_certified,'\n')
+    if(!is.null(x$page_count))
+        cat('Pages:',x$page_count,'\n')
+    if(!is.null(x$question_count))
+        cat('Questions:',x$question_count,'\n')
+    if(!is.null(x$preview_url))
+        cat('Preview URL:',x$preview_url,'\n')
+    if(!is.null(x$category_name)){
+        if(!is.null(x$category_id))
+            cat('Category ',x$category_name,' (',x$category_id,'):\n',sep='')
+        if(!is.null(x$category_description))
+            cat(x$category_description,'\n')
+    }
+    if(!is.null(x$date_created))
+        cat('Date created: ',x$date_created,'\n')
+    if(!is.null(x$date_modified))
+        cat('Date modified:',x$date_modified,'\n')
     invisible(x)
 }

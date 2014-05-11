@@ -37,3 +37,13 @@ Rmonkey uses these values inside `sm_login` to initiate an OAuth2.0 login. Calli
 ## Code Examples ##
 
 Coming soon.
+
+### Polling new responses ###
+
+Based on: https://developer.surveymonkey.com/mashery/polling
+
+
+### Literate Report Generation ###
+
+ 1. Create survey from template
+ 2. Pull responses in literate document and publish

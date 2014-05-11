@@ -85,13 +85,19 @@ createcollector <- function(
 }
 
 print.sm_collector <- function(x, ...){
-    cat('Collector Name:', x$name, '\n')
-    cat('ID:', x$collector_id, '\n')
-    cat('Type:', x$type, '\n')
+    if(!is.null(x$name))
+        cat('Collector Name:', x$name, '\n')
+    if(!is.null(x$collector_id))
+        cat('ID:', x$collector_id, '\n')
+    if(!is.null(x$type))
+        cat('Type:', x$type, '\n')
     if('type' %in% names(x) && x$type=='url')
         cat('URL:', x$url, '\n')
-    cat('Date Created: ', x$date_created, '\n')
-    cat('Date Modified:', x$date_modified, '\n')
-    cat('Open?', x$open, '\n\n')
-    invisible(x)    
+    if(!is.null(x$date_created))
+        cat('Date Created: ', x$date_created, '\n')
+    if(!is.null(x$date_modified))
+        cat('Date Modified:', x$date_modified, '\n')
+    if(!is.null(x$open))
+        cat('Open?', x$open, '\n\n')
+    invisible(x)
 }

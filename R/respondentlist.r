@@ -43,11 +43,38 @@ respondentlist <- function(
         warning("An error occurred: ",content$errmsg)
         return(content)
     } else {
-        lapply(content$data$respondents, `class<-`, 'sm_respondent')
+        out <- lapply(content$data$respondents, `class<-`, 'sm_respondent')
+        return(out)
     }
 }
 
 print.sm_respondent <- function(x,...){
-    
+    if(!is.null(x$respondent_id))
+        cat('Respondent ID:',x$respondent_id,'\n')
+    if(!is.null(x$collection_mode)){
+        if(!is.null(x$collector_id))
+            cat(x$collection_mode,'Collector ID:',x$collector_id,'\n')
+    } else{
+        if(!is.null(x$collector_id))
+            cat('Collector ID:',x$collector_id,'\n')
+    }
+    if(!is.null(x$email))
+        cat('Email:    ',x$email,'\n')
+    if(!is.null(x$first_name))
+        cat('First:    ',x$first_name,'\n')
+    if(!is.null(x$last_name))
+        cat('Last:     ',x$last_name,'\n')
+    if(!is.null(x$custom_id))
+        cat('Custom ID:',x$custom_id,'\n')
+    if(!is.null(x$ip_address))
+        cat('IP Address:',x$ip_address,'\n')
+    if(!is.null(x$status))
+        cat(x$status,'\n')
+    if(!is.null(x$date_start))
+        cat('Started: ',x$date_start,'\n')
+    if(!is.null(x$date_modified))
+        cat('Modified:',x$date_modified,'\n')
+    if(!is.null(x$analysis_url))
+        cat('Analysis URL:',x$analysis_url,'\n')
     invisible(x)
 }
