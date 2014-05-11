@@ -29,7 +29,7 @@ getresponses <- function(
 }
 
 
-print.sm_surveydetails <- function(x, ...){
+print.sm_response <- function(x, ...){
     #
     invisible(x)
 }

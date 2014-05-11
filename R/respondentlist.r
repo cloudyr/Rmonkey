@@ -1,5 +1,5 @@
 respondentlist <- function(
-    id,
+    survey,
     collector = NULL,
     page = NULL,
     page_size = NULL,
@@ -23,7 +23,7 @@ respondentlist <- function(
         token <- paste('bearer', oauth_token)
     else
         stop("Must specify 'oauth_token'")
-    b <- list(survey_id = id, collector_id = collector,
+    b <- list(survey_id = survey, collector_id = collector,
               page = page, page_size = page_size,
               start_date = start_date, end_date = end_date,
               start_modified_date = start_modified_date,

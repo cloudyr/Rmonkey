@@ -3,7 +3,11 @@
 \title{OAuth Login}
 \description{Login into Survey Monkey to generate an OAuth 2.0 token}
 \usage{
-smlogin()
+smlogin(client_id = getOption('sm_client_id'),
+        api_key = getOption('sm_api_key'),
+        secret = getOption('sm_secret'),
+        redirect_uri = 'http://localhost:1410',
+        response_type='code')
 }
 \arguments{
 \item{client_id}{Your Mashable developer account username. By default, retrieved from \code{getOption('sm_client_id')}.}
@@ -13,8 +17,8 @@ smlogin()
 \item{response_type}{Default value is \dQuote{code}. No other values are allowed.}
 %  \item{...}{Other arguments. Currently ignored.}
 }
-\details{The particular objects returned will vary in structure depending on type of recall. As a result, attempting to build a rectangular dataset from different types of recall data may prove complicated. It is recommended to retrieve recalls of only one type if the goal is to \code{\link{rbind}} the list of results into a matrix or data.frame.}
-\value{A list containing one or more objects of class \dQuote{recall}.}
+\details{Initiate an interactive OAuth 2.0 authentication process by logging into Survey Monkey via a web browser.}
+\value{An OAuth 2.0 token object as returned by \code{oauth2.0_token}.}
 %\references{}
 \author{Thomas J. Leeper}
 %\note{}
