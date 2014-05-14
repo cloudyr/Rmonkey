@@ -3,7 +3,7 @@ createcollector <- function(
     name,
     type = 'weblink',
     recipients = NULL,
-    email_reply = NULL,
+    email_replyto = NULL,
     email_subject = NULL,
     email_body = NULL,
     api_key = getOption('sm_api_key'),
@@ -62,8 +62,8 @@ createcollector <- function(
         b <- list(survey_id = survey,
                   collector = list(type = type, name = name, recipients = recipients),
                   email_message = if(is.null(email_body)) {
-                  list(reply_email = email_reply, subject = email_subject)
-                  } else { list(reply_email = email_reply,
+                  list(reply_email = email_replyto, subject = email_subject)
+                  } else { list(reply_email = email_replyto,
                                             subject = email_subject,
                                             body = email_body)})
         b <- toJSON(b)

@@ -5,7 +5,7 @@ createsurvey <- function(
     collector_name = NULL,
     type = 'email', # only 'email' is allowed
     recipients = NULL,
-    email_reply = NULL,
+    email_replyto = NULL,
     email_subject = NULL,
     email_body = NULL,
     api_key = getOption('sm_api_key'),
@@ -42,26 +42,33 @@ createsurvey <- function(
     if(!is.null(template) & !is.null(survey)) {
         stop("Only 'template' xor 'survey' is allowed.")
     } else if(!is.null(template)){
-        b <- list(template_id = template, survey_title = title,
-                  collector = list(type = type, name = collector_name,
-                                   recipients = recipients),
+        b <- list(survey=list(template_id = as.character(template), survey_title = title),
+                  collector = if(!is.null(collector_name))
+                  { list(type = type,
+                         name = collector_name,
+                         recipients = recipients)
+                  } else { list(type = type,
+                                recipients = recipients) },
                   email_message = if(is.null(email_body)) {
-                  list(subject = email_subject, reply_email = email_reply)
-                  } else { list(reply_email = email_reply,
+                  list(subject = email_subject, reply_email = email_replyto)
+                  } else { list(reply_email = email_replyto,
                                             subject = email_subject,
                                             body = email_body)})
     } else if(!is.null(survey)){
-        b <- list(from_survey_id = survey, survey_title = title,
-                  collector = list(type = type, name = collector_name,
-                                   recipients = recipients),
+        b <- list(survey=list(from_survey_id = as.character(survey), survey_title = title),
+                  collector = if(!is.null(collector_name))
+                  { list(type = type,
+                         name = collector_name,
+                         recipients = recipients)
+                  } else { list(type = type,
+                                recipients = recipients) },
                   email_message = if(is.null(email_body)) {
-                  list(subject = email_subject, reply_email = email_reply)
-                  } else { list(reply_email = email_reply,
+                  list(subject = email_subject, reply_email = email_replyto)
+                  } else { list(reply_email = email_replyto,
                                             subject = email_subject,
                                             body = email_body)})
     }
-    b <- toJSON(list(survey=b))
-    #return(b)
+    b <- toJSON(b)
     h <- add_headers(Authorization=token, 'Content-Type'='application/json')
     out <- POST(u, config = h, body = b)
     stop_for_status(out)

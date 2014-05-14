@@ -4,7 +4,7 @@
 \description{Create a new weblink or email collector for a survey}
 \usage{
 createcollector(survey, name, type = 'weblink',
-                recipients = NULL, email_reply = NULL,
+                recipients = NULL, email_replyto = NULL,
                 email_subject = NULL, email_body = NULL,
                 api_key = getOption('sm_api_key'),
                 oauth_token = getOption('sm_oauth_token'))
@@ -12,9 +12,9 @@ createcollector(survey, name, type = 'weblink',
 \arguments{
 \item{survey}{A Survey Monkey survey ID number, possibly returned by \code{\link{surveylist}}.}
 \item{name}{A character string to use as the name of the collector.}
-\item{type}{Either \dQuote{weblink} or \dQuote{email}. If email, \code{recipients}, \code{email_reply}, and \code{email_subject} are required (\code{email_body} is optional, defaulting to the default Survey Monkey template).}
+\item{type}{Either \dQuote{weblink} or \dQuote{email}. If email, \code{recipients}, \code{email_replyto}, and \code{email_subject} are required (\code{email_body} is optional, defaulting to the default Survey Monkey template).}
 \item{recipients}{A list of character vectors containing email addresses and potentially first names, last names, and a \dQuote{Custom ID} for each recipient. Only email address is required. User can specify vectors between 1 and 4 items long. If vectors do not have element names, items in each vector are assumed to be email address, first name, last name, and custom ID (in that order). If supplied in a different order, each vector element must be named: \code{email}, \code{first_name}, \code{last_name}, and \code{custom_id}.}
-\item{email_reply}{A character string containing the reply-to email address for the survey.}
+\item{email_replyto}{A character string containing the reply-to email address for the survey.}
 \item{email_subject}{A character string containing the subject line for the email to be sent to recipients.}
 \item{email_body}{A character string containing the body of an email to be sent to recipients. The string should contain \code{[SurveyLink]} as a placeholder for the survey link and \code{[RemoveLink]} as a placeholder for the standard Survey Monkey opt-out.}
 \item{api_key}{Your API key. By default, retrieved from \code{getOption('sm_api_key')}.}
@@ -41,7 +41,7 @@ createcollector(s[[1]]$survey_id, 'survey link', type='weblink')
 # email list collector
 createcollector(s[[1]]$survey_id, 'Emails', type='email', 
     recipients = list('first@example.com', 'second@example.com'),
-    email_reply='me@example.com', email_subject='Please complete a short survey!')
+    email_replyto='me@example.com', email_subject='Please complete a short survey!')
 }
 }
 %\keyword{}

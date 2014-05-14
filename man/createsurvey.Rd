@@ -4,7 +4,7 @@
 \description{Create a new survey (and collector) from a survey template}
 \usage{
 createsurvey(template = NULL, survey = NULL, title, collector_name = NULL,
-             type = 'email', recipients = NULL, email_reply = NULL,
+             type = 'email', recipients = NULL, email_replyto = NULL,
              email_subject = NULL, email_body = NULL,
              api_key = getOption('sm_api_key'),
              oauth_token = getOption('sm_oauth_token'))
@@ -16,7 +16,7 @@ createsurvey(template = NULL, survey = NULL, title, collector_name = NULL,
 \item{collector_name}{A character string to use as the name of the collector. If \code{NULL}, the default \dQuote{New Email Invitation} will be used.}
 \item{type}{Type of collector to create. Currently only allowed value is \dQuote{email}. Weblink collectors can be created using \code{\link{createcollector}}.}
 \item{recipients}{A list of character vectors containing email addresses and potentially first names, last names, and a \dQuote{Custom ID} for each recipient. Only email address is required. User can specify vectors between 1 and 4 items long. If vectors do not have element names, items in each vector are assumed to be email address, first name, last name, and custom ID (in that order). If supplied in a different order, each vector element must be named: \code{email}, \code{first_name}, \code{last_name}, and \code{custom_id}.}
-\item{email_reply}{A character string containing the reply-to email address for the survey.}
+\item{email_replyto}{A character string containing the reply-to email address for the survey.}
 \item{email_subject}{A character string containing the subject line for the email to be sent to recipients.}
 \item{email_body}{A character string containing the body of an email to be sent to recipients. The string should contain \code{[SurveyLink]} as a placeholder for the survey link and \code{[RemoveLink]} as a placeholder for the standard Survey Monkey opt-out.}
 \item{api_key}{Your API key. By default, retrieved from \code{getOption('sm_api_key')}.}
@@ -37,15 +37,17 @@ smlogin()
 
 # create survey by copying existing survey
 s <- surveylist()
-createsurvey(s[[1]]$survey_id, title = 'Copied survey', collector_name='Emails', 
+createsurvey(survey = s[[1]]$survey_id, title = 'Copied survey',
+    collector_name='Emails', 
     recipients = list('first@example.com', 'second@example.com'),
-    email_reply='me@example.com', email_subject='Please complete a short survey!')
+    email_replyto='me@example.com', email_subject='Please complete a short survey!')
 
 # create survey from template
 tmps <- templates()
-createsurvey(tmps[[1]]$template_id, title = 'Copied survey', collector_name='Emails', 
+createsurvey(template = tmps[[1]]$template_id, title = 'Copied survey',
+    collector_name='Emails', 
     recipients = list('first@example.com', 'second@example.com'),
-    email_reply='me@example.com', email_subject='Please complete a short survey!')    
+    email_replyto='me@example.com', email_subject='Please complete a short survey!')    
 }
 }
 %\keyword{}

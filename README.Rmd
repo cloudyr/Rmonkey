@@ -38,7 +38,18 @@ Rmonkey uses these values inside `smlogin` to initiate an OAuth2.0 login. Callin
 
 Coming soon.
 
-### Polling new responses ###
+### Creating a survey and retrieving results ###
+
+```
+createsurvey()
+surveydetails()
+responsecounts()
+respondentlist()
+getresponses()
+```
+
+
+### Polling for new responses ###
 
 Based on: https://developer.surveymonkey.com/mashery/polling
 
@@ -46,4 +57,4 @@ Based on: https://developer.surveymonkey.com/mashery/polling
 ### Literate Report Generation ###
 
  1. Create survey from template
- 2. Pull responses in literate document and publish
+ 2. Pull responses in literate Rmd document and publish
