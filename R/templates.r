@@ -45,6 +45,8 @@ templates <- function(
 }
 
 print.sm_template <- function(x,...){
+    if(!is.null(x$template_id))
+        cat('Template ID:',x$template_id,'\n')
     if(!is.null(x$title))
         cat('Title:',x$title,'\n')
     if(!is.null(x$short_description))
