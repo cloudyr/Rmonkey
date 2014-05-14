@@ -3,7 +3,7 @@
 \title{Create survey}
 \description{Create a new survey (and collector) from a survey template}
 \usage{
-createsurvey(template = NULL, survey = NULL, title, collector_name,
+createsurvey(template = NULL, survey = NULL, title, collector_name = NULL,
              type = 'email', recipients = NULL, email_reply = NULL,
              email_subject = NULL, email_body = NULL,
              api_key = getOption('sm_api_key'),
@@ -13,7 +13,7 @@ createsurvey(template = NULL, survey = NULL, title, collector_name,
 \item{template}{A Survey Monkey template ID number, possibly returned by \code{\link{templates}}. Must specify either \code{template} xor \code{survey}.}
 \item{survey}{A Survey Monkey survey ID number, possibly returned by \code{\link{surveylist}}. Must specify either \code{template} xor \code{survey}.}
 \item{title}{A character string to use as the title of the survey.}
-\item{collector_name}{A character string to use as the name of the collector.}
+\item{collector_name}{A character string to use as the name of the collector. If \code{NULL}, the default \dQuote{New Email Invitation} will be used.}
 \item{type}{Type of collector to create. Currently only allowed value is \dQuote{email}. Weblink collectors can be created using \code{\link{createcollector}}.}
 \item{recipients}{A list of character vectors containing email addresses and potentially first names, last names, and a \dQuote{Custom ID} for each recipient. Only email address is required. User can specify vectors between 1 and 4 items long. If vectors do not have element names, items in each vector are assumed to be email address, first name, last name, and custom ID (in that order). If supplied in a different order, each vector element must be named: \code{email}, \code{first_name}, \code{last_name}, and \code{custom_id}.}
 \item{email_reply}{A character string containing the reply-to email address for the survey.}

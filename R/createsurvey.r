@@ -1,10 +1,8 @@
-## THIS IS NOT WORKING YET...
-
 createsurvey <- function(
     template = NULL,
     survey = NULL,
     title,
-    collector_name,
+    collector_name = NULL,
     type = 'email', # only 'email' is allowed
     recipients = NULL,
     email_reply = NULL,
@@ -48,7 +46,7 @@ createsurvey <- function(
                   collector = list(type = type, name = collector_name,
                                    recipients = recipients),
                   email_message = if(is.null(email_body)) {
-                  list(reply_email = email_reply, subject = email_subject)
+                  list(subject = email_subject, reply_email = email_reply)
                   } else { list(reply_email = email_reply,
                                             subject = email_subject,
                                             body = email_body)})
@@ -57,7 +55,7 @@ createsurvey <- function(
                   collector = list(type = type, name = collector_name,
                                    recipients = recipients),
                   email_message = if(is.null(email_body)) {
-                  list(reply_email = email_reply, subject = email_subject)
+                  list(subject = email_subject, reply_email = email_reply)
                   } else { list(reply_email = email_reply,
                                             subject = email_subject,
                                             body = email_body)})
