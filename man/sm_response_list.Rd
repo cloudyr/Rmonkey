@@ -1,16 +1,16 @@
-\name{as.data.frame.sm}
+\name{as.data.frame.sm_response}
 \alias{as.data.frame.sm_response}
 \alias{as.data.frame.sm_response_list}
 \title{Parse responses to dataframe}
 \description{Parse responses to a data.frame using a \code{sm_surveydetails} object.}
 \usage{
-\method{as.data.frame}{sm_response}{x, details = NULL, details_opts = NULL, ...}
-\method{as.data.frame}{sm_response_list}{x, details = NULL, details_opts = NULL, ...}
+\method{as.data.frame}{sm_response}(x, details, \dots)
+\method{as.data.frame}{sm_response_list}(x, details, \dots)
 }
 \arguments{
 \item{x}{An object of class \code{sm_response} or \code{sm_response_list}.}
 \item{details}{An object of class \code{sm_surveydetails}, a survey ID number (possibly returned by \code{\link{surveylist}}), or \code{NULL}. The latter two will trigger a \code{\link{surveydetails}} request.}
-\item{...}{Other arguments. Currently ignored.}
+\item{\dots}{Other arguments. Currently ignored.}
 }
 \details{Parses an \code{sm_response} object, or list of such objects, into a dataframe using a \code{sm_surveydetails} object to structure the result.}
 \value{A data.frame.}

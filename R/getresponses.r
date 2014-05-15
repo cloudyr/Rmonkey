@@ -37,7 +37,7 @@ print.sm_response <- function(x, ...){
     invisible(x)
 }
 
-as.data.frame.sm_response <- function(x, details = NULL, ..){
+as.data.frame.sm_response <- function(x, details, ...){
     if(is.character(details)){
         details <- surveydetails(survey = details[1])
     } else if(!inherits(details, 'sm_survey')){
@@ -90,7 +90,7 @@ as.data.frame.sm_response <- function(x, details = NULL, ..){
     return(out)
 }
 
-as.data.frame.sm_response_list <- function(x, details = NULL, ...){
+as.data.frame.sm_response_list <- function(x, details, ...){
     if(is.character(details)){
         details <- surveydetails(survey = details[1])
     } else if(!inherits(details, 'sm_survey')){
@@ -100,8 +100,7 @@ as.data.frame.sm_response_list <- function(x, details = NULL, ...){
     out <- do.call(rbind, tmp)
     a <- sapply(tmp, attr, 'question')
     for(i in seq_along(out)) {
-        attr(out[,i], 'question') <-
-            varnames[pmatch(strsplit(names(out)[i],'\\.')[[1]][1], names(varnames))]
+        attr(out[,i], 'question') <- a[i]
     }
     return(out)
 }
