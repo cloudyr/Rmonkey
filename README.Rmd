@@ -32,7 +32,9 @@ options(sm_secret = 'YourAPISecret')
 options(sm_client_id = 'YourMashableDeveloperUsername')
 ```
 
-Rmonkey uses these values inside `smlogin` to initiate an OAuth2.0 login. Calling `smlogin()`, you will redirected to your web browser, where you will login with your regular Survey Monkey account information. `sm_login` will then store a durable OAuth token in `options('sm_oauth_token')`, which is automatically retrieved in subsequent Rmonkey operations. If you have trouble logging in, it is also possible to generate an OAuth token using the [API Console](https://developer.surveymonkey.com/api_console), which can then be manually stored in `options('sm_oauth_token')`. This token is currently long-lived (meaning it is valid indefinitely). This means that saving the OAuth token between R sessions will prevent you from having to login each time you load **Rmonkey** and allow you to use the package in non-interactive R sessions.
+Rmonkey uses these values inside `smlogin` to initiate an OAuth2.0 login. Calling `smlogin()`, you will redirected to your web browser, where you will login with your regular Survey Monkey account information. `sm_login` will then store a durable OAuth token in `options('sm_oauth_token')`, which is automatically retrieved in subsequent Rmonkey operations.
+
+This token is currently long-lived (meaning it is valid indefinitely). This means that saving the OAuth token between R sessions will prevent you from having to login each time you load **Rmonkey** and allow you to use the package in non-interactive R sessions. If you have trouble logging in, it is also possible to generate an OAuth token using the [API Console](https://developer.surveymonkey.com/api_console), which can then be manually stored in `options('sm_oauth_token')`. 
 
 ## Code Examples ##
 
