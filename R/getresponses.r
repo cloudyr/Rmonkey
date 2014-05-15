@@ -37,7 +37,7 @@ print.sm_response <- function(x, ...){
     invisible(x)
 }
 
-as.data.frame.sm_response <- function(x, details = NULL, detail_opts = NULL, ...){
+as.data.frame.sm_response <- function(x, details = NULL, detail_opts = NULL,.var_names = NULL, ..){
     if(is.null(details)){
         details <- do.call('surveydetails', c(survey = x$survey_id, detail_opts))
     } else if(is.character(details)){
@@ -46,19 +46,46 @@ as.data.frame.sm_response <- function(x, details = NULL, detail_opts = NULL, ...
         stop("'details' is not character or an 'sm_surveydetails' object")
     }
     qcount <- x$question_count
+    # extract all questions from the `question` element in all pages
+    questions <- do.call('c', lapply(details$pages, function(i) i[['questions']]))
+    # `heading` is the display text
+    varnames <- sapply(questions, function(i) setNames(i$heading, i$question_id))
+    # `type` contains info about each question type
+    qtypes <- sapply(questions, function(i) setNames(i$type$family, i$question_id))
+    # extract all answers from the `answers` elements of each subelement of `question`
+        # `answer_id` is what is recorded in `sm_response`
+        # `text` is the display seen by respondents
+        # `answers` is empty for "open_ended" type questions
+    answerchoices <- sapply(questions, function(i) {
+                    sapply(i$answers, function(k) {
+                        setNames(k$text, k$answer_id)
+                    })
+                })
+    answerchoices <- setNames(answerchoices, names(varnames))
     # parse details:
-        # extract all questions from the `question` element in all pages
-            # `heading` is the display text
-            # `type` contains info about each question type
-        # extract all answers from the `answers` elements of each subelement of `question`
-            # `answer_id` is what is recorded in `sm_response`
-            # `text` is the display seen by respondents
-            # `answers` is empty for "open_ended" type questions
     # parse into dataframe
+    question_ids <- unlist(sapply(x$questions, `[`, 'question_id'))
+    responses <- sapply(x$questions, function(i) {
+        # potentially handle different variable types better
+        unname(unlist(i$answers))
+    })
+    responses <- setNames(responses, question_ids)
+    lapply(responses, function(i){
+        if(sum(grepl('answer',names(i)))>1)
+            
+    })
         # build dataframe, where variable names are `question_id` and values are `answer_id`
         # recode responses by looking up `question_id` in details and recoding answers
         # rename columns to something
-    invisible(x)
+    out <- as.data.frame(matrix(ncol=length(questions)))
+    if(is.null(var_names)) {
+        out <- setNames(out, gsub('[[:punct:][:space:]]','',varnames))
+    } else if(ncol(out) == length(var_names)){
+        out <- setNames(out, var_names)
+    } else {
+        warning("Due to length mismatch, 'var_names' ignored!")
+    }
+    return(out)
 }
 
 as.data.frame.sm_response_list <- function(x, details = NULL, detail_opts = NULL, ...){
