@@ -37,13 +37,11 @@ print.sm_response <- function(x, ...){
     invisible(x)
 }
 
-as.data.frame.sm_response <- function(x, details = NULL, detail_opts = NULL,.var_names = NULL, ..){
-    if(is.null(details)){
-        details <- do.call('surveydetails', c(survey = x$survey_id, detail_opts))
-    } else if(is.character(details)){
-        details <- do.call('surveydetails', c(survey = details[1], detail_opts))
-    } else if(!inherits(details, 'sm_surveydetails')){
-        stop("'details' is not character or an 'sm_surveydetails' object")
+as.data.frame.sm_response <- function(x, details = NULL, ..){
+    if(is.character(details)){
+        details <- surveydetails(survey = details[1])
+    } else if(!inherits(details, 'sm_survey')){
+        stop("'details' is not character or an 'sm_survey' object")
     }
     qcount <- x$question_count
     # extract all questions from the `question` element in all pages
@@ -57,45 +55,53 @@ as.data.frame.sm_response <- function(x, details = NULL, detail_opts = NULL,.var
         # `text` is the display seen by respondents
         # `answers` is empty for "open_ended" type questions
     answerchoices <- sapply(questions, function(i) {
-                    sapply(i$answers, function(k) {
-                        setNames(k$text, k$answer_id)
-                    })
-                })
-    answerchoices <- setNames(answerchoices, names(varnames))
-    # parse details:
-    # parse into dataframe
-    question_ids <- unlist(sapply(x$questions, `[`, 'question_id'))
-    responses <- sapply(x$questions, function(i) {
+                        sapply(i$answers, function(k) {
+                            setNames(k$text, k$answer_id)
+                        })
+                     })
+    #answerchoices <- setNames(answerchoices, names(varnames))
+    answerchoices <- unlist(do.call(c, answerchoices))
+    # recode responses by looking up `question_id` in details and recoding answers
+    responses <- mapply(function(i, type) {
         # potentially handle different variable types better
-        unname(unlist(i$answers))
-    })
+        if(type %in% c('single_choice','multiple_choice'))
+            unname(answerchoices[match(unlist(i$answers), names(answerchoices))])
+        else
+            unname(unlist(i$answers))
+    }, x$questions, qtypes)
+    question_ids <- unlist(sapply(x$questions, `[`, 'question_id'))
     responses <- setNames(responses, question_ids)
-    lapply(responses, function(i){
-        if(sum(grepl('answer',names(i)))>1)
-            
-    })
-        # build dataframe, where variable names are `question_id` and values are `answer_id`
-        # recode responses by looking up `question_id` in details and recoding answers
-        # rename columns to something
-    out <- as.data.frame(matrix(ncol=length(questions)))
-    if(is.null(var_names)) {
-        out <- setNames(out, gsub('[[:punct:][:space:]]','',varnames))
-    } else if(ncol(out) == length(var_names)){
-        out <- setNames(out, var_names)
-    } else {
-        warning("Due to length mismatch, 'var_names' ignored!")
+    # convert multiple choice to multiple variables
+    len <- sapply(responses, length)
+    outvarnames <- unlist(mapply(function(cnt, name) {
+                            if(cnt>1)
+                                paste(name,1:cnt,sep='.')
+                            else
+                                name
+                        }, len, names(len)))
+    # build dataframe, where variable names are `question_id` and values are `answer_id`
+    out <- setNames(as.data.frame(matrix(unlist(responses), nrow=1)), outvarnames)
+    
+    # rename columns to something
+    for(i in seq_along(out)) {
+        attr(out[,i], 'question') <-
+            varnames[pmatch(strsplit(names(out)[i],'\\.')[[1]][1], names(varnames))]
     }
     return(out)
 }
 
-as.data.frame.sm_response_list <- function(x, details = NULL, detail_opts = NULL, ...){
-    if(is.null(details)){
-        details <- do.call('surveydetails', c(survey = x[[1]]$survey_id, detail_opts))
-    } else if(is.character(details)){
-        details <- do.call('surveydetails', c(survey = details[1], detail_opts))
-    } else if(!inherits(details, 'sm_surveydetails')){
-        stop("'details' is not character or an 'sm_surveydetails' object")
+as.data.frame.sm_response_list <- function(x, details = NULL, ...){
+    if(is.character(details)){
+        details <- surveydetails(survey = details[1])
+    } else if(!inherits(details, 'sm_survey')){
+        stop("'details' is not character or an 'sm_survey' object")
     }
-    out <- do.call(rbind, lapply(x, as.data.frame, details = details, ...))
+    tmp <- lapply(x, as.data.frame.sm_response, details = details, ...)
+    out <- do.call(rbind, tmp)
+    a <- sapply(tmp, attr, 'question')
+    for(i in seq_along(out)) {
+        attr(out[,i], 'question') <-
+            varnames[pmatch(strsplit(names(out)[i],'\\.')[[1]][1], names(varnames))]
+    }
     return(out)
 }
