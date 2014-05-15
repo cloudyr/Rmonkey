@@ -10,7 +10,7 @@ createcollector(survey, name, type = 'weblink',
                 oauth_token = getOption('sm_oauth_token'))
 }
 \arguments{
-\item{survey}{A Survey Monkey survey ID number, possibly returned by \code{\link{surveylist}}.}
+\item{survey}{A Survey Monkey survey ID number (or an object of class \dQuote{sm_survey} from which it can be extracted), possibly returned by \code{\link{surveylist}}.}
 \item{name}{A character string to use as the name of the collector.}
 \item{type}{Either \dQuote{weblink} or \dQuote{email}. If email, \code{recipients}, \code{email_replyto}, and \code{email_subject} are required (\code{email_body} is optional, defaulting to the default Survey Monkey template).}
 \item{recipients}{A list of character vectors containing email addresses and potentially first names, last names, and a \dQuote{Custom ID} for each recipient. Only email address is required. User can specify vectors between 1 and 4 items long. If vectors do not have element names, items in each vector are assumed to be email address, first name, last name, and custom ID (in that order). If supplied in a different order, each vector element must be named: \code{email}, \code{first_name}, \code{last_name}, and \code{custom_id}.}

@@ -3,6 +3,8 @@ surveydetails <- function(
     api_key = getOption('sm_api_key'),
     oauth_token = getOption('sm_oauth_token')
 ){
+    if(inherits(survey, 'sm_survey'))
+        survey <- survey$survey_id
     if(!is.null(api_key)) {
         u <- paste('https://api.surveymonkey.net/v2/surveys/get_survey_details?',
                     'api_key=', api_key, sep='')

@@ -10,7 +10,6 @@
 \arguments{
 \item{x}{An object of class \code{sm_response} or \code{sm_response_list}.}
 \item{details}{An object of class \code{sm_surveydetails}, a survey ID number (possibly returned by \code{\link{surveylist}}), or \code{NULL}. The latter two will trigger a \code{\link{surveydetails}} request.}
-\item{details_opts}{A list of additional options passed to \code{\link{surveydetails}}. Ignored if \code{survey} is supplied with an object of class \code{sm_surveydetails}.}
 \item{...}{Other arguments. Currently ignored.}
 }
 \details{Parses an \code{sm_response} object, or list of such objects, into a dataframe using a \code{sm_surveydetails} object to structure the result.}
@@ -23,11 +22,11 @@
 \dontrun{
 smlogin()
 s <- surveylist()
-r <- respondentlist(s[[1]]$survey_id)
+r <- respondentlist(s[[1]])
 
 # get all responses (up to 100)
-a <- getresponses(lapply(r[[1]], function(x) `[`, 'respondent_id'), s[[1]]$survey_id)
-as.data.frame(a)
+a <- getresponses(lapply(r[[1]], function(x) `[`, 'respondent_id'), s[[1]])
+as.data.frame(a, s[[1]])
 }
 }
 %\keyword{}

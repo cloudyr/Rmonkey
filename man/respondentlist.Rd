@@ -14,7 +14,7 @@ respondentlist(survey, collector = NULL, page = NULL, page_size = NULL,
                oauth_token = getOption('sm_oauth_token'))
 }
 \arguments{
-\item{survey}{A Survey Monkey survey ID number, possibly returned by \code{\link{surveylist}}.}
+\item{survey}{A Survey Monkey survey ID number (or an object of class \dQuote{sm_survey} from which it can be extracted), possibly returned by \code{\link{surveylist}}.}
 \item{collector}{A collector ID number, possibly returned by \code{\link{collectors}}.}
 \item{page}{A number indicating which page of results to return.}
 \item{page_size}{The number of results to return per API call. Default is 1000.}

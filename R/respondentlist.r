@@ -14,6 +14,10 @@ respondentlist <- function(
     api_key = getOption('sm_api_key'),
     oauth_token = getOption('sm_oauth_token')
 ){
+    if(inherits(survey, 'sm_survey'))
+        survey <- survey$survey_id
+    if(!is.null(collector) && inherits(collector, 'sm_collector'))
+        collector <- collector$collector_id
     if(!is.null(api_key)) {
         u <- paste('https://api.surveymonkey.net/v2/surveys/get_respondent_list?',
                     'api_key=', api_key, sep='')

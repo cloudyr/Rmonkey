@@ -11,7 +11,7 @@ createsurvey(template = NULL, survey = NULL, title, collector_name = NULL,
 }
 \arguments{
 \item{template}{A Survey Monkey template ID number, possibly returned by \code{\link{templates}}. Must specify either \code{template} xor \code{survey}.}
-\item{survey}{A Survey Monkey survey ID number, possibly returned by \code{\link{surveylist}}. Must specify either \code{template} xor \code{survey}.}
+\item{survey}{A Survey Monkey survey ID number (or an object of class \dQuote{sm_survey} from which it can be extracted), possibly returned by \code{\link{surveylist}}. Must specify either \code{template} xor \code{survey}.}
 \item{title}{A character string to use as the title of the survey.}
 \item{collector_name}{A character string to use as the name of the collector. If \code{NULL}, the default \dQuote{New Email Invitation} will be used.}
 \item{type}{Type of collector to create. Currently only allowed value is \dQuote{email}. Weblink collectors can be created using \code{\link{createcollector}}.}

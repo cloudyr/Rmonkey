@@ -9,6 +9,8 @@ createcollector <- function(
     api_key = getOption('sm_api_key'),
     oauth_token = getOption('sm_oauth_token')
 ){
+    if(inherits(survey, 'sm_survey'))
+        survey <- survey$survey_id
     if(type=='weblink'){
         # create_collector endpoint
         if(!is.null(api_key)) {

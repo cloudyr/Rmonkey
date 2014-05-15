@@ -55,6 +55,8 @@ createsurvey <- function(
                                             subject = email_subject,
                                             body = email_body)})
     } else if(!is.null(survey)){
+        if(inherits(survey, 'sm_survey'))
+            survey <- survey$survey_id
         b <- list(survey=list(from_survey_id = as.character(survey), survey_title = title),
                   collector = if(!is.null(collector_name))
                   { list(type = type,
