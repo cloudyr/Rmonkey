@@ -44,10 +44,13 @@ Coming soon.
 
 ```
 createsurvey()
-surveydetails()
+# distribute manually via your web browser
+d <- surveydetails()
 responsecounts()
-respondentlist()
-getresponses()
+r <- respondentlist()
+a <- getresponses()
+as.data.frame(a)
+
 ```
 
 
