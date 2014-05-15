@@ -28,7 +28,6 @@ surveylist <- function(
         b <- '{}'
     else
         b <- toJSON(b[!nulls])
-    #return(b)
     h <- add_headers(Authorization=token,
                      'Content-Type'='application/json')
     out <- POST(u, config = h, body = b)
@@ -42,8 +41,12 @@ surveylist <- function(
 }
 
 print.sm_survey <- function(x, ...){
-    if(!is.null(x$title))
-        cat('Survey Title:', x$title, '\n')
+    if(!is.null(x$title)) {
+        if(is.list(x$title))
+            cat('Survey Title:', x$title$text, '\n')
+        else
+            cat('Survey Title:', x$title, '\n')
+    }
     if(!is.null(x$survey_id))
         cat('ID:', x$survey_id, '\n')
     if(!is.null(x$language_id))

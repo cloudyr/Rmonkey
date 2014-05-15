@@ -22,5 +22,5 @@ surveydetails <- function(
         warning("An error occurred: ",content$errmsg)
         return(content)
     } else
-        structure(content, class='sm_survey')
+        structure(content$data, class='sm_survey')
 }
