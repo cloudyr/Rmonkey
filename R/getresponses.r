@@ -4,6 +4,10 @@ getresponses <- function(
     api_key = getOption('sm_api_key'),
     oauth_token = getOption('sm_oauth_token')
 ){
+    if(is.list(respondents) && inherits(respondents[[1]], 'sm_respondent'))
+        respondents <- lapply(respondents, `[`, 'respondent_id')
+    if(inherits(survey, 'sm_survey'))
+        survey <- survey$survey_id
     if(!is.null(api_key)) {
         u <- paste('https://api.surveymonkey.net/v2/surveys/get_responses?',
                     'api_key=', api_key, sep='')
@@ -28,6 +32,7 @@ getresponses <- function(
         return(content)
     } else
         lapply(content$data, `class<-`, 'sm_response')
+        content$data <- lapply(content$data, `attr<-`, 'survey_id', survey)
         return(structure(content$data, class = 'sm_response_list'))
 }
 
@@ -37,11 +42,19 @@ print.sm_response <- function(x, ...){
     invisible(x)
 }
 
-as.data.frame.sm_response <- function(x, details, ...){
-    if(is.character(details)){
-        details <- surveydetails(survey = details[1])
-    } else if(!inherits(details, 'sm_survey')){
-        stop("'details' is not character or an 'sm_survey' object")
+as.data.frame.sm_response <- function(x, details = NULL, ...){
+    if(!is.null(attr(x, 'survey_id'))) {
+            details <- surveydetails(survey = attr(x, 'survey_id'))
+    } else if(!is.null(details)){
+        if(inherits(details, 'sm_survey')){
+            details <- details
+        } else if(is.character(details)){
+            details <- surveydetails(survey = details[1])
+        } else {
+            stop("'details' is not character or an 'sm_survey' object")
+        }
+    } else {
+        stop("'details' is missing and cannot be determined automatically")
     }
     qcount <- x$question_count
     # extract all questions from the `question` element in all pages
@@ -59,7 +72,6 @@ as.data.frame.sm_response <- function(x, details, ...){
                             setNames(k$text, k$answer_id)
                         })
                      })
-    #answerchoices <- setNames(answerchoices, names(varnames))
     answerchoices <- unlist(do.call(c, answerchoices))
     # recode responses by looking up `question_id` in details and recoding answers
     responses <- mapply(function(i, type) {
@@ -90,15 +102,23 @@ as.data.frame.sm_response <- function(x, details, ...){
     return(out)
 }
 
-as.data.frame.sm_response_list <- function(x, details, ...){
-    if(is.character(details)){
-        details <- surveydetails(survey = details[1])
-    } else if(!inherits(details, 'sm_survey')){
-        stop("'details' is not character or an 'sm_survey' object")
+as.data.frame.sm_response_list <- function(x, details = NULL, ...){
+    if(!is.null(attr(x[[1]], 'survey_id'))) {
+            details <- surveydetails(survey = attr(x[[1]], 'survey_id'))
+    } else if(!is.null(details)){
+        if(inherits(details, 'sm_survey')){
+            details <- details
+        } else if(is.character(details)){
+            details <- surveydetails(survey = details[1])
+        } else {
+            stop("'details' is not character or an 'sm_survey' object")
+        }
+    } else {
+        stop("'details' is missing and cannot be determined automatically")
     }
     tmp <- lapply(x, as.data.frame.sm_response, details = details, ...)
     out <- do.call(rbind, tmp)
-    a <- sapply(tmp, attr, 'question')
+    a <- sapply(tmp[[1]], attr, 'question')
     for(i in seq_along(out)) {
         attr(out[,i], 'question') <- a[i]
     }

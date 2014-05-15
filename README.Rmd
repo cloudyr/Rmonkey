@@ -42,15 +42,17 @@ Coming soon.
 
 ### Creating a survey and retrieving results ###
 
-```
-createsurvey()
-# distribute manually via your web browser
-d <- surveydetails()
-responsecounts()
-r <- respondentlist()
-a <- getresponses()
-as.data.frame(a)
+Here's a basic workflow:
 
+```
+templates <- templatelist()
+createsurvey(template[[1]], title = 'My New Survey', recipients = c('recipient1@example.com'),
+             email_replyto = 'myemail@example.com', email_subject = 'Take my survey!')
+# distribute manually via your web browser
+s <- surveylist()
+r <- respondentlist(s[[1]])
+a <- getresponses(r, s[[1]])
+as.data.frame(a)
 ```
 
 
