@@ -30,10 +30,13 @@ getresponses <- function(
     if(content$status==3) {
         warning("An error occurred: ",content$errmsg)
         return(content)
-    } else
-        lapply(content$data, `class<-`, 'sm_response')
-        content$data <- lapply(content$data, `attr<-`, 'survey_id', survey)
+    } else {
+        if(!is.null(content$data)) {
+            lapply(content$data, `class<-`, 'sm_response')
+            content$data <- lapply(content$data, `attr<-`, 'survey_id', survey)
+        }
         return(structure(content$data, class = 'sm_response_list'))
+    }
 }
 
 print.sm_response <- function(x, ...){
