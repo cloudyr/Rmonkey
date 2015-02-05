@@ -5,7 +5,7 @@ getresponses <- function(
     oauth_token = getOption('sm_oauth_token')
 ){
     if(is.list(respondents) && inherits(respondents[[1]], 'sm_respondent'))
-        respondents <- lapply(respondents, `[`, 'respondent_id')
+        respondents <- unname(sapply(respondents, `[`, 'respondent_id'))
     if(inherits(survey, 'sm_survey'))
         survey <- survey$survey_id
     if(!is.null(api_key)) {
