@@ -4,8 +4,11 @@ getresponses <- function(
     api_key = getOption('sm_api_key'),
     oauth_token = getOption('sm_oauth_token')
 ){
-    if(is.list(respondents) && inherits(respondents[[1]], 'sm_respondent'))
-        respondents <- unname(sapply(respondents, `[`, 'respondent_id'))
+    if(inherits(respondents, "sm_respondent")) {
+        respondents <- respondents$respondent_id
+    } else if(is.list(respondents)) {
+        respondents <- unname(sapply(respondents, `[`, "respondent_id"))
+    }
     if(inherits(survey, 'sm_survey'))
         survey <- survey$survey_id
     if(!is.null(api_key)) {
@@ -23,7 +26,7 @@ getresponses <- function(
     }
     h <- add_headers(Authorization=token,
                      'Content-Type'='application/json')
-    b <- toJSON(list(survey_id = survey, respondent_ids = as.list(respondents)))
+    b <- toJSON(list(respondent_ids = as.list(respondents), survey_id = survey), auto_unbox = TRUE)
     out <- POST(u, config = h, body = b)
     stop_for_status(out)
     content <- content(out, as='parsed')
@@ -45,9 +48,9 @@ print.sm_response <- function(x, ...){
     invisible(x)
 }
 
-as.data.frame.sm_response <- function(x, details = NULL, ...){
-    if(!is.null(attr(x, 'survey_id'))) {
-            details <- surveydetails(survey = attr(x, 'survey_id'))
+as.data.frame.sm_response <- function(x, row.names, optional, details = NULL, ...){
+    if(is.null(details) && !is.null(attr(x, 'survey_id'))) {
+        details <- surveydetails(survey = attr(x, 'survey_id'))
     } else if(!is.null(details)){
         if(inherits(details, 'sm_survey')){
             details <- details
@@ -105,9 +108,9 @@ as.data.frame.sm_response <- function(x, details = NULL, ...){
     return(out)
 }
 
-as.data.frame.sm_response_list <- function(x, details = NULL, ...){
-    if(!is.null(attr(x[[1]], 'survey_id'))) {
-            details <- surveydetails(survey = attr(x[[1]], 'survey_id'))
+as.data.frame.sm_response_list <- function(x, row.names, optional, details = NULL, ...){
+    if(is.null(details) && !is.null(attr(x[[1]], 'survey_id'))) {
+        details <- surveydetails(survey = attr(x[[1]], 'survey_id'))
     } else if(!is.null(details)){
         if(inherits(details, 'sm_survey')){
             details <- details
@@ -119,11 +122,7 @@ as.data.frame.sm_response_list <- function(x, details = NULL, ...){
     } else {
         stop("'details' is missing and cannot be determined automatically")
     }
-    tmp <- lapply(x, as.data.frame.sm_response, details = details, ...)
-    out <- do.call(rbind, tmp)
-    a <- sapply(tmp[[1]], attr, 'question')
-    for(i in seq_along(out)) {
-        attr(out[,i], 'question') <- a[i]
-    }
+    tmp <- lapply(x, as.data.frame, details = details, ...)
+    out <- rbind.fill(tmp)
     return(out)
 }

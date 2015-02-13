@@ -38,30 +38,61 @@ This token is currently long-lived (meaning it is valid indefinitely). This mean
 
 ## Code Examples ##
 
-Coming soon.
+Coming soon!
 
 ### Creating a survey and retrieving results ###
 
-Here's a basic workflow:
+**Rmonkey** can be used to create surveys (but not distribute them) as well as retrieve the finished results. 
+
+Here's a basic workflow to create a survey from either a survey template or an existing survey:
 
 ```
+# create a survey and collector from a template
 templates <- templatelist()
-createsurvey(template[[1]], title = 'My New Survey', recipients = c('recipient1@example.com'),
-             email_replyto = 'myemail@example.com', email_subject = 'Take my survey!')
-# distribute manually via your web browser
+new1 <- createsurvey(templates[[1]], title = 'My New Survey', recipients = c('recipient1@example.com'),
+                     email_replyto = 'myemail@example.com', email_subject = 'Take my survey!')
+# create a survey and collector from another survey
 s <- surveylist()
-r <- respondentlist(s[[1]])
-a <- getresponses(r, s[[1]])
-as.data.frame(a)
+new2 <- createsurvey(s[[1]], title = 'My New Survey', recipients = c('recipient1@example.com'),
+                     email_replyto = 'myemail@example.com', email_subject = 'Take my survey!')
 ```
+
+The `createsurvey` function can (currently) only create "email" type collectors. To create a weblink collector, use `createcollector`. The collector URL is returned as part of the "sm_collector" object and can be distributed as desired. Here's an example:
+```
+createcollector(new1, name = 'My new survey link')
+```
+
+Retrieving results using **Rmonkey** is also relatively easy but involves two steps. First, you need to use `respondentlist` to retrieve the list of respondents to a specific survey (which can be further narrowed to a specific collector on that survey) and then use `getresponses` to further retrieve the actual responses data.
+
+```
+s <- surveylist() # to retrieve the survey id for your survey, if you don't already know it
+r <- respondentlist(s[[1]])
+g <- getresponses(r, s[[1]])
+
+# convert `g` to data.frame:
+as.data.frame(g)
+```
+
+`getresponses` returns an object of class "sm_response_list", which has an `as.data.frame` method. Thus to convert the resulting list to a usable dataframe, simply use the standard: `as.data.frame`. Note: Survey Monkey returns variable numbers and full question wordings for each variable. The variable numbers are used to create the data.frame column names and the full question wordings are stored in a "question" attribute for each column; and all variables are encoded as factors. You may want to manually rename and recode the columns before proceeding.
 
 
 ### Polling for new responses ###
+
+If you need to pull down recent responses or simply check the status of a survey, **Rmonkey** can do this for you easily. For example, simply to monitor the number of completed surveys, you can simply us `responsecounts` to retrieve the number of completed interviews for a specified survey. To additionally retrieve new interviews that have been completed since the last time you checked, you can use a combination of `respondentlist` and `getresponses` to build and update a dataset dynamically. All that's required is recording the last time you check for completed surveys.
+
+INSERT CODE HERE
 
 Based on: https://developer.surveymonkey.com/mashery/polling
 
 
 ### Literate Report Generation ###
 
+One possible use case for Survey Monkey (or any online survey tool) is the repeated polling of some target population. Perhaps it is website visitors or customers and new data are generated every day, week, or month. If reports need to be generated from these data - and especially if those reports follow a standard template - **Rmonkey** can be particularly helpful for extracting data from Survey Monkey allowing those reports to be generated almost automatically using **knitr**.
+
+A possible workflow is:
+
  1. Create survey from template
- 2. Pull responses in literate Rmd document and publish
+ 2. Distribute the survey link manually
+ 3. Pull responses in literate Rmd document and publish report
+
+

@@ -34,10 +34,11 @@ s <- surveylist()
 r <- respondentlist(s[[1]]$survey_id)
 
 # get one response
-getresponses(r[[1]]$respondent_id, s[[1]]$survey_id)
+getresponses(r[[1]], s[[1]])
 
 # get all responses (up to 100)
-getresponses(lapply(r[[1]], function(x) `[`, 'respondent_id'), s[[1]]$survey_id)
+g <- getresponses(r, s[[1]])
+as.data.frame(g) # convert to data.frame
 }
 }
 %\keyword{}

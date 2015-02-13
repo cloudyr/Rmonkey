@@ -16,6 +16,10 @@ S3method(print, 'sm_respondent')
 S3method(print, 'sm_response')
 S3method(print, 'sm_template')
 
+S3method(as.data.frame, 'sm_response')
+S3method(as.data.frame, 'sm_response_list')
+
+importFrom('plyr', 'rbind.fill')
 importFrom('RCurl', 'curlEscape')
 import('httr')
-import('RJSONIO')
+import('jsonlite')

@@ -70,7 +70,7 @@ createsurvey <- function(
                                             subject = email_subject,
                                             body = email_body)})
     }
-    b <- toJSON(b)
+    b <- toJSON(b, auto_unbox = TRUE)
     h <- add_headers(Authorization=token, 'Content-Type'='application/json')
     out <- POST(u, config = h, body = b)
     stop_for_status(out)

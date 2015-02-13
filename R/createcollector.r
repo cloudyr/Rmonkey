@@ -23,7 +23,7 @@ createcollector <- function(
         else
             stop("Must specify 'oauth_token'")
         b <- list(survey_id = survey, collector = list(type = type, name = name))
-        b <- toJSON(b)
+        b <- toJSON(b, auto_unbox = TRUE)
         h <- add_headers(Authorization=token,
                          'Content-Type'='application/json')
         out <- POST(u, config = h, body = b)

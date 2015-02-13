@@ -1,10 +1,10 @@
 Package: Rmonkey
-Version: 0.1.1
-Date: 2014-05-11
+Version: 0.1.2
+Date: 2015-02-13
 Title: A Survey Monkey R Client
 Author: Thomas J. Leeper
 Maintainer: Thomas J. Leeper <thosjleeper@gmail.com>
-Imports: RCurl, httr, RJSONIO
+Imports: RCurl, httr, jsonlite, plyr
 Description: Rmonkey provides programmatic access to the Survey Monkey API, which currently provides extensive functionality for monitoring surveys and retrieving survey results and some functionality for creating new surveys and data collectors.
 License: GPL-2
 URL: https://github.com/leeper/Rmonkey

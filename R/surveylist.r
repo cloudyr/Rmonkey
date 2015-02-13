@@ -27,7 +27,7 @@ surveylist <- function(
     if(all(nulls))
         b <- '{}'
     else
-        b <- toJSON(b[!nulls])
+        b <- toJSON(b[!nulls], auto_unbox = TRUE)
     h <- add_headers(Authorization=token,
                      'Content-Type'='application/json')
     out <- POST(u, config = h, body = b)

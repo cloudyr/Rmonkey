@@ -67,7 +67,10 @@ Retrieving results using **Rmonkey** is also relatively easy but involves two st
 ```
 s <- surveylist() # to retrieve the survey id for your survey, if you don't already know it
 r <- respondentlist(s[[1]])
-getresponses(r, s[[1]])
+g <- getresponses(r, s[[1]])
+
+# convert `g` to data.frame:
+as.data.frame(g)
 ```
 
 `getresponses` returns an object of class "sm_response_list", which has an `as.data.frame` method. Thus to convert the resulting list to a usable dataframe, simply use the standard: `as.data.frame`. Note: Survey Monkey returns variable numbers and full question wordings for each variable. The variable numbers are used to create the data.frame column names and the full question wordings are stored in a "question" attribute for each column; and all variables are encoded as factors. You may want to manually rename and recode the columns before proceeding.
