@@ -1,6 +1,6 @@
 Package: Rmonkey
-Version: 0.1.2
-Date: 2015-02-13
+Version: 0.1.21
+Date: 2015-03-20
 Title: A Survey Monkey R Client
 Author: Thomas J. Leeper
 Maintainer: Thomas J. Leeper <thosjleeper@gmail.com>

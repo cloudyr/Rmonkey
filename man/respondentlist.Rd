@@ -18,10 +18,10 @@ respondentlist(survey, collector = NULL, page = NULL, page_size = NULL,
 \item{collector}{A collector ID number, possibly returned by \code{\link{collectors}}.}
 \item{page}{A number indicating which page of results to return.}
 \item{page_size}{The number of results to return per API call. Default is 1000.}
-\item{start_date}{A start datetime to restrict result to. Any returned respondents must have been created on or after this datetime. Required format is \code{YYYY-MM-DD HH:MM:SS}, implicitly in UTC.}
-\item{end_date}{An end datetime to restrict result to. Any returned respondents must have been created strictly before this datetime. Required format is \code{YYYY-MM-DD HH:MM:SS}, implicitly in UTC.}
-\item{start_modified_date}{A start datetime to restrict result to. Any returned respondents must have been modified on or after this datetime. Required format is \code{YYYY-MM-DD HH:MM:SS}, implicitly in UTC.}
-\item{end_modified_date}{An end datetime to restrict result to. Any returned respondents must have been modified strictly before this datetime. Required format is \code{YYYY-MM-DD HH:MM:SS}, implicitly in UTC.}
+\item{start_date}{A start datetime to restrict result to. Any returned respondents must have been created on or after this datetime. Required format is \code{YYYY-MM-DD HH:MM:SS}, implicitly in UTC; if argument is of class \code{POSIXct}, formatting is handled automatically.}
+\item{end_date}{An end datetime to restrict result to. Any returned respondents must have been created strictly before this datetime. Required format is \code{YYYY-MM-DD HH:MM:SS}, implicitly in UTC; if argument is of class \code{POSIXct}, formatting is handled automatically.}
+\item{start_modified_date}{A start datetime to restrict result to. Any returned respondents must have been modified on or after this datetime. Required format is \code{YYYY-MM-DD HH:MM:SS}, implicitly in UTC; if argument is of class \code{POSIXct}, formatting is handled automatically.}
+\item{end_modified_date}{An end datetime to restrict result to. Any returned respondents must have been modified strictly before this datetime. Required format is \code{YYYY-MM-DD HH:MM:SS}, implicitly in UTC; if argument is of class \code{POSIXct}, formatting is handled automatically.}
 \item{name}{A character string containing a name of a survey collector to search for.}
 \item{order_asc}{A boolean indicating whether results should be sorted in ascending or descending (the default) order.}
 \item{order_by}{A boolean indicating whether results should be sorted in ascending or descending (the default) order.}

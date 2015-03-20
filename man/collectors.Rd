@@ -13,8 +13,8 @@ collectors(survey, page = NULL, page_size = NULL,
 \item{survey}{A Survey Monkey survey ID number (or an object of class \dQuote{sm_survey} from which it can be extracted), possibly returned by \code{\link{surveylist}}.}
 \item{page}{A number indicating which page of results to return.}
 \item{page_size}{The number of results to return per API call. Default is 1000.}
-\item{start_date}{A start datetime to restrict result to. Any returned collectors must have been created on or after this datetime. Required format is \code{YYYY-MM-DD HH:MM:SS}, implicitly in UTC.}
-\item{end_date}{An end datetime to restrict result to. Any returned collectors must have been created strictly before this datetime. Required format is \code{YYYY-MM-DD HH:MM:SS}, implicitly in UTC.}
+\item{start_date}{A start datetime to restrict result to. Any returned collectors must have been created on or after this datetime. Required format is \code{YYYY-MM-DD HH:MM:SS}, implicitly in UTC; if argument is of class \code{POSIXct}, formatting is handled automatically.}
+\item{end_date}{An end datetime to restrict result to. Any returned collectors must have been created strictly before this datetime. Required format is \code{YYYY-MM-DD HH:MM:SS}, implicitly in UTC; if argument is of class \code{POSIXct}, formatting is handled automatically.}
 \item{name}{A character string containing a name of a survey collector to search for.}
 \item{order_asc}{A boolean indicating whether results should be sorted in ascending or descending (the default) order.}
 \item{fields}{A character vector containing the names of fields to return in each \code{sm_collector} class object. See Details.}

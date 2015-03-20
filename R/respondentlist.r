@@ -27,6 +27,14 @@ respondentlist <- function(
         token <- paste('bearer', oauth_token)
     else
         stop("Must specify 'oauth_token'")
+    if(inherits(start_date, "POSIXct") | inherits(start_date, "Date"))
+        start_date <- format(start_date, "%Y-%m-%d %H:%M:%S", tz = "UTC")
+    if(inherits(end_date, "POSIXct") | inherits(end_date, "Date"))
+        end_date <- format(end_date, "%Y-%m-%d %H:%M:%S", tz = "UTC")
+    if(inherits(start_modified_date, "POSIXct") | inherits(start_modified_date, "Date"))
+        start_modified_date <- format(start_modified_date, "%Y-%m-%d %H:%M:%S", tz = "UTC")
+    if(inherits(end_modified_date, "POSIXct") | inherits(end_modified_date, "Date"))
+        end_modified_date <- format(end_modified_date, "%Y-%m-%d %H:%M:%S", tz = "UTC")
     b <- list(survey_id = survey, collector_id = collector,
               page = page, page_size = page_size,
               start_date = start_date, end_date = end_date,

@@ -8,16 +8,20 @@
 
 **Rmonkey** is [available on GitHub](http://github.com/leeper/Rmonkey) and can (soon) be installed from within R from your favorite CRAN mirror:
 
-```
+```R
 install.packages("Rmonkey")
+library("Rmonkey")
 ```
 
 And the latest development version, available here, can be installed directly using  [devtools](http://cran.r-project.org/web/packages/devtools/index.html):
 
-```
-# install.packages("devtools")
-library("devtools")
+```R
+if(!require("devtools")) {
+    install.packages("devtools")
+    library("devtools")
+}
 install_github("leeper/Rmonkey")
+library("Rmonkey")
 ```
 
 ## Setup ##
@@ -26,7 +30,7 @@ To use Rmonkey, the user must have a Survey Monkey account, a Mashable Survey Mo
 
 Once everything is registered, the relevant variables can be loaded into R using `options`:
 
-```
+```R
 options(sm_api_key = 'YourAPIKey')
 options(sm_secret = 'YourAPISecret')
 options(sm_client_id = 'YourMashableDeveloperUsername')
@@ -38,7 +42,7 @@ This token is currently long-lived (meaning it is valid indefinitely). This mean
 
 ## Code Examples ##
 
-Coming soon!
+Below are some code examples showing how to use the package.
 
 ### Creating a survey and retrieving results ###
 
@@ -46,7 +50,7 @@ Coming soon!
 
 Here's a basic workflow to create a survey from either a survey template or an existing survey:
 
-```
+```R
 # create a survey and collector from a template
 templates <- templatelist()
 new1 <- createsurvey(templates[[1]], title = 'My New Survey', recipients = c('recipient1@example.com'),
@@ -58,13 +62,14 @@ new2 <- createsurvey(s[[1]], title = 'My New Survey', recipients = c('recipient1
 ```
 
 The `createsurvey` function can (currently) only create "email" type collectors. To create a weblink collector, use `createcollector`. The collector URL is returned as part of the "sm_collector" object and can be distributed as desired. Here's an example:
-```
+
+```R
 createcollector(new1, name = 'My new survey link')
 ```
 
 Retrieving results using **Rmonkey** is also relatively easy but involves two steps. First, you need to use `respondentlist` to retrieve the list of respondents to a specific survey (which can be further narrowed to a specific collector on that survey) and then use `getresponses` to further retrieve the actual responses data.
 
-```
+```R
 s <- surveylist() # to retrieve the survey id for your survey, if you don't already know it
 r <- respondentlist(s[[1]])
 g <- getresponses(r, s[[1]])
@@ -78,14 +83,37 @@ as.data.frame(g)
 
 ### Polling for new responses ###
 
-If you need to pull down recent responses or simply check the status of a survey, **Rmonkey** can do this for you easily. For example, simply to monitor the number of completed surveys, you can simply us `responsecounts` to retrieve the number of completed interviews for a specified survey. To additionally retrieve new interviews that have been completed since the last time you checked, you can use a combination of `respondentlist` and `getresponses` to build and update a dataset dynamically. All that's required is recording the last time you check for completed surveys.
-
-INSERT CODE HERE
+If you need to pull down recent responses or simply check the status of a survey, **Rmonkey** can do this for you easily. For example, simply to monitor the number of completed surveys, you can simply us `responsecounts` to retrieve the number of completed interviews for a specified survey collector (note that response counts can only be retrieved for a specific collector, not a survey as a whole).
 
 
-Based on: https://developer.surveymonkey.com/mashery/polling
+```R
+s <- surveylist()
+colls <- collectors(s[[1]])
+responsecounts(colls[[1]])
+```
 
+This can be used to check if additional responses have been received for the specified collector since the last time you checked. To additionally retrieve new responses, you can use a combination of `respondentlist` and `getresponses` to build and update a dataset dynamically. All that's required is recording the last time you check for completed surveys.
 
+```R
+dat <- list()
+last <- Sys.time() # store last retrieval time
+dat[[1]] <- respondentlist(s[[2]], start_modified_date = NULL, fields = c("date_modified","status"))
+
+# wait
+Sys.sleep(10)
+
+# get new responses since last poll
+dat[[2]] <- respondentlist(s[[2]], start_modified_date = last, fields = c("date_modified","status"))
+last <- Sys.time() # update last retrievval time
+```
+
+This process can be repeated, possibly in a loop. Then, eventually, the results can be combined into data.frame (or you could build a data.frame at each polling iteration).
+
+```R
+plyr::rbind.fill(lapply(dat, function(z) as.data.frame(getresponses(z, survey = s[[1]]))))
+```
+
+Note the complexity of the above operation is somewhat unavoidable because SurveyMonkey does not return raw answer data for `getresponses`. Instead it returns a complex mapping of those responses that has to be matched against the survey details (see `surveydetails`). Thus converting the response data into a data.frame actually requires additional API calls. Using the `as.data.frame` method on the list of responses reduces the number of API calls needed for that to happen (i.e., it only retrieves the survey structure one time, as opposed to retrieving it for every single response, thereby avoiding API throttling).
 
 
 ### Literate Report Generation ###
@@ -98,5 +126,47 @@ A possible workflow is:
  2. Distribute the survey link manually
  3. Pull responses in literate Rmd document and publish report
 
- 
- 
+```R
+# get available templates
+tmp <- templates()
+
+survey <- 
+createsurvey(tmp[[1]], title = "knitr Demonstration", 
+             collector_name = Sys.Date(), type = "email",
+             recipients = list(c("thosjleeper@gmail.com")),
+             email_replyto = "me@example.com", 
+             email_subject = "Take my survey", 
+             email_body = "Body of email here. Click my link: [SurveyLink].
+                           If you want to opt out, click here: [RemoveLink]")
+# go to SurveyMonkey.com and distribute the survey
+```
+
+You can then use `createcollector` to create new collectors for each new day, thus separating results for each survey that can easily be retrieved using `getresponses` for that collector.
+
+Then, you can (at some future point in time) generate a simple Rmarkdown document that retrieves and summarizes results auto-magically:
+
+```
+---
+title: "Survey Results"
+output: pdf_document
+---
+
+    ```{r, results = "hide", echo = "false"}
+    options(sm_api_key = 'YourAPIKey')
+    options(sm_secret = 'YourAPISecret')
+    options(sm_client_id = 'YourMashableDeveloperUsername')
+    options(sm_oauth_token = 'YourOAuthToken')
+    ```
+
+This document contains the survey results:
+
+    ```R
+    # retrieve responses
+    dat <- getresponses(responselist(survey))
+    summary(dat)
+    # etc.
+    ```
+
+Isn't that amazin?
+
+```
