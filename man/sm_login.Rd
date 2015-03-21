@@ -13,7 +13,7 @@ smlogin(client_id = getOption('sm_client_id'),
 \item{client_id}{Your Mashable developer account username. By default, retrieved from \code{getOption('sm_client_id')}.}
 \item{api_key}{Your API key. By default, retrieved from \code{getOption('sm_api_key')}.}
 \item{secret}{Your API secret key. By default, retrieved from \code{getOption('sm_secret')}.}
-\item{redirect_uri}{Default value is \dQuote{http://localhost:1410}. No other value is allowed. This must be the redirect URL registered for your application in your Survey Monkey developer account.}
+\item{redirect_uri}{Default value is \samp{http://localhost:1410}. No other value is allowed. This must be the redirect URL registered for your application in your Survey Monkey developer account.}
 \item{response_type}{Default value is \dQuote{code}. No other values are allowed.}
 %  \item{...}{Other arguments. Currently ignored.}
 }
