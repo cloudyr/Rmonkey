@@ -1,6 +1,6 @@
 # CHANGES TO Rmonkey 0.2 #
 
-* Switch from RJSONIO to jsonlite
+* Switch from **RJSONIO** to **jsonlite**
 * Import `plyr::rbind.fill` for `as.data.frame.sm_response_list`.
 
 # CHANGES TO Rmonkey 0.1 #

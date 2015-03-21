@@ -1,3 +1,4 @@
 .travis.yml
-README.Rmd
 inst/figure
+README.Rmd
+README.html
