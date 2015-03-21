@@ -167,6 +167,6 @@ This document contains the survey results:
     # etc.
     ```
 
-Isn't that amazin?
+Isn't that amazing?
 
 ```
