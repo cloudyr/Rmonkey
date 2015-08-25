@@ -3,7 +3,7 @@ createsurvey <- function(
     survey = NULL,
     title,
     collector_name = NULL,
-    type = 'email', # only 'email' is allowed
+    type = 'email',
     recipients = NULL,
     email_replyto = NULL,
     email_subject = NULL,
@@ -52,8 +52,9 @@ createsurvey <- function(
                   email_message = if(is.null(email_body)) {
                   list(subject = email_subject, reply_email = email_replyto)
                   } else { list(reply_email = email_replyto,
-                                            subject = email_subject,
-                                            body = email_body)})
+                                subject = email_subject,
+                                body_text = email_body)
+                  })
     } else if(!is.null(survey)){
         if(inherits(survey, 'sm_survey'))
             survey <- survey$survey_id
@@ -67,8 +68,9 @@ createsurvey <- function(
                   email_message = if(is.null(email_body)) {
                   list(subject = email_subject, reply_email = email_replyto)
                   } else { list(reply_email = email_replyto,
-                                            subject = email_subject,
-                                            body = email_body)})
+                                subject = email_subject,
+                                body_text = email_body
+                  )})
     }
     b <- toJSON(b, auto_unbox = TRUE)
     h <- add_headers(Authorization=token, 'Content-Type'='application/json')

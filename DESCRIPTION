@@ -1,8 +1,11 @@
 Package: Rmonkey
-Version: 0.2.11
-Date: 2015-03-24
+Version: 0.2.12
+Date: 2015-11-08
 Title: A Survey Monkey R Client
-Author: Thomas J. Leeper
+Authors@R: c(person("Thomas J.", "Leeper", role = c("aut", "cre"),
+                    email = "thosjleeper@gmail.com"),
+             person("Kevin", "Little", role = "ctb", 
+                    email = "klittle@iecodesign.com"))
 Maintainer: Thomas J. Leeper <thosjleeper@gmail.com>
 Imports: RCurl, httr, jsonlite, plyr
 Description: Programmatic access to the Survey Monkey API <https://developer.surveymonkey.com/>, which currently provides extensive functionality for monitoring surveys and retrieving survey results and some functionality for creating new surveys and data collectors.
