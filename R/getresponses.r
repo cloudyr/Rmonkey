@@ -44,7 +44,7 @@ getresponses <- function(
 
 print.sm_response <- function(x, ...){
     if(!is.null(x$respondent_id))
-        cat('Responent ID:',x$respondent_id,'\n')
+        cat('Respondent ID:',x$respondent_id,'\n')
     invisible(x)
 }
 
