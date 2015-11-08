@@ -10,5 +10,5 @@ Maintainer: Thomas J. Leeper <thosjleeper@gmail.com>
 Imports: httr, jsonlite, curl, plyr
 Description: Programmatic access to the Survey Monkey API <https://developer.surveymonkey.com/>, which currently provides extensive functionality for monitoring surveys and retrieving survey results and some functionality for creating new surveys and data collectors.
 License: GPL-2
-URL: https://github.com/leeper/Rmonkey
-BugReports: https://github.com/leeper/Rmonkey/issues
+URL: https://github.com/cloudyr/Rmonkey
+BugReports: https://github.com/cloudyr/Rmonkey/issues

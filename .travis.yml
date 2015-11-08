@@ -1,2 +1,6 @@
 language: r
 sudo: required
+r_github_packages:
+- eddelbuettel/drat
+#after_success:
+#- test $TRAVIS_PULL_REQUEST == "false" && test $TRAVIS_BRANCH == "master" && bash drat.sh

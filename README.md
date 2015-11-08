@@ -1,6 +1,6 @@
 # A Survey Monkey R Client #
 
-[![Build Status](https://travis-ci.org/leeper/Rmonkey.png?branch=master)](https://travis-ci.org/leeper/Rmonkey)
+[![Build Status](https://travis-ci.org/cloudyr/Rmonkey.png?branch=master)](https://travis-ci.org/cloudyr/Rmonkey)
 [![CRAN Version](http://www.r-pkg.org/badges/version/Rmonkey)](http://cran.r-project.org/package=Rmonkey)
 ![Downloads](http://cranlogs.r-pkg.org/badges/Rmonkey)
 
@@ -8,7 +8,7 @@
 
 ## Installation ##
 
-**Rmonkey** is [available on GitHub](http://github.com/leeper/Rmonkey) and can (soon) be installed from within R from your favorite CRAN mirror:
+**Rmonkey** is [available on GitHub](http://github.com/cloudyr/Rmonkey) and can (soon) be installed from within R from your favorite CRAN mirror:
 
 ```R
 install.packages("Rmonkey")
@@ -22,7 +22,7 @@ if(!require("devtools")) {
     install.packages("devtools")
     library("devtools")
 }
-install_github("leeper/Rmonkey")
+install_github("cloudyr/Rmonkey")
 library("Rmonkey")
 ```
 
