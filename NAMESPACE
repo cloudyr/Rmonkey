@@ -20,6 +20,6 @@ S3method(as.data.frame, 'sm_response')
 S3method(as.data.frame, 'sm_response_list')
 
 importFrom('plyr', 'rbind.fill')
-importFrom('RCurl', 'curlEscape')
+importFrom('curl', 'curl_escape')
 import('httr')
 import('jsonlite')

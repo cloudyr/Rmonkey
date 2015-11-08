@@ -13,7 +13,7 @@ smlogin <- function(client_id = getOption('sm_client_id'),
               redirect_uri = redirect_uri,
               client_id = client_id,
               api_key = api_key)
-    a <- paste(names(a), curlEscape(a), sep='=', collapse='&')
+    a <- paste(names(a), curl_escape(a), sep='=', collapse='&')
     e <- structure(list(authorize = 'https://api.surveymonkey.net/oauth/authorize',
                         access = 'https://api.surveymonkey.net/oauth/token'), class='oauth_endpoint')
     e$authorize <- paste(e$authorize,a,sep='?')
