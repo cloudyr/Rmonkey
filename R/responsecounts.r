@@ -20,7 +20,7 @@ responsecounts <- function(
     out <- POST(u, config = h, body = b)
     stop_for_status(out)
     content <- content(out, as='parsed')
-    if(content$status==3) {
+    if(content$status != 0) {
         warning("An error occurred: ",content$errmsg)
         return(content)
     } else

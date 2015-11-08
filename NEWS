@@ -1,7 +1,18 @@
+# CHANGES TO Rmonkey 0.3 #
+
+## SIGNIFICANT USER-VISIBLE CHANGES ##
+
+* Transfered repository to the cloudyr project. (#9)
+* Removed dependency on RCurl.
+
+## BUG FIXES ##
+
+* Fixed a problem in `createsurvey()` (h/t Kevin Little, #7, #8)
+
 # CHANGES TO Rmonkey 0.2 #
 
 * Switch from **RJSONIO** to **jsonlite**
-* Import `plyr::rbind.fill` for `as.data.frame.sm_response_list`.
+* Import `plyr::rbind.fill()` for `as.data.frame.sm_response_list()`.
 
 # CHANGES TO Rmonkey 0.1 #
 
