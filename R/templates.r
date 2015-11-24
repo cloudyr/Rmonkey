@@ -6,7 +6,8 @@ templates <- function(
     only_mine = TRUE,
     fields = NULL,
     api_key = getOption('sm_api_key'),
-    oauth_token = getOption('sm_oauth_token')
+    oauth_token = getOption('sm_oauth_token'),
+    ...
 ){
     if(!is.null(api_key)) {
         u <- paste('https://api.surveymonkey.net/v2/templates/get_template_list?',
@@ -28,7 +29,7 @@ templates <- function(
         b <- toJSON(b[!nulls], auto_unbox = TRUE)
     h <- add_headers(Authorization=token,
                      'Content-Type'='application/json')
-    out <- POST(u, config = h, body = b)
+    out <- POST(u, config = h, ..., body = b)
     stop_for_status(out)
     content <- content(out, as='parsed')
     if(content$status != 0) {

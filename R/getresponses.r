@@ -2,7 +2,8 @@ getresponses <- function(
     respondents,
     survey,
     api_key = getOption('sm_api_key'),
-    oauth_token = getOption('sm_oauth_token')
+    oauth_token = getOption('sm_oauth_token'),
+    ...
 ){
     if(inherits(respondents, "sm_respondent")) {
         respondents <- respondents$respondent_id
@@ -27,7 +28,7 @@ getresponses <- function(
     h <- add_headers(Authorization=token,
                      'Content-Type'='application/json')
     b <- toJSON(list(respondent_ids = as.list(respondents), survey_id = survey), auto_unbox = TRUE)
-    out <- POST(u, config = h, body = b)
+    out <- POST(u, config = h, ..., body = b)
     stop_for_status(out)
     content <- content(out, as='parsed')
     if(content$status != 0) {

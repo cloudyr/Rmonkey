@@ -8,7 +8,8 @@ surveylist <- function(
     order_asc = NULL,
     fields = NULL,
     api_key = getOption('sm_api_key'),
-    oauth_token = getOption('sm_oauth_token')
+    oauth_token = getOption('sm_oauth_token'),
+    ...
 ){
     if(!is.null(api_key)) {
         u <- paste('https://api.surveymonkey.net/v2/surveys/get_survey_list?',
@@ -34,7 +35,7 @@ surveylist <- function(
         b <- toJSON(b[!nulls], auto_unbox = TRUE)
     h <- add_headers(Authorization=token,
                      'Content-Type'='application/json')
-    out <- POST(u, config = h, body = b)
+    out <- POST(u, config = h, ..., body = b)
     stop_for_status(out)
     content <- content(out, as='parsed')
     if(content$status != 0){

@@ -12,7 +12,8 @@ respondentlist <- function(
     order_by = NULL,
     fields = NULL,
     api_key = getOption('sm_api_key'),
-    oauth_token = getOption('sm_oauth_token')
+    oauth_token = getOption('sm_oauth_token'),
+    ...
 ){
     if(inherits(survey, 'sm_survey'))
         survey <- survey$survey_id
@@ -48,7 +49,7 @@ respondentlist <- function(
         b <- toJSON(b[!nulls], auto_unbox = TRUE)
     h <- add_headers(Authorization=token,
                      'Content-Type'='application/json')
-    out <- POST(u, config = h, body = b)
+    out <- POST(u, config = h, ..., body = b)
     stop_for_status(out)
     content <- content(out, as='parsed')
     if(content$status != 0) {

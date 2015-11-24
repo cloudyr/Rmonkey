@@ -2,11 +2,13 @@
 
 ## SIGNIFICANT USER-VISIBLE CHANGES ##
 
+* Exposed a `...` argument to `httr::POST()`, etc.
 * Transfered repository to the cloudyr project. (#9)
 * Removed dependency on RCurl.
 
 ## BUG FIXES ##
 
+* Returned error messages on any API error rather than just "invalid request".
 * Fixed a problem in `createsurvey()` (h/t Kevin Little, #7, #8)
 
 # CHANGES TO Rmonkey 0.2 #
