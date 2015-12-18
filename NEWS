@@ -8,6 +8,7 @@
 
 ## BUG FIXES ##
 
+* Fixed a bug in `as.data.frame.sm_response()` that caused surveys with certain question options to fail to bind as a data.frame. (#5, #10)
 * Returned error messages on any API error rather than just "invalid request".
 * Fixed a problem in `createsurvey()` (h/t Kevin Little, #7, #8)
 

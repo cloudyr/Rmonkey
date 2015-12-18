@@ -1,6 +1,6 @@
 Package: Rmonkey
-Version: 0.2.13
-Date: 2015-11-24
+Version: 0.2.14
+Date: 2015-12-18
 Title: A Survey Monkey R Client
 Authors@R: c(person("Thomas J.", "Leeper", role = c("aut", "cre"),
                     email = "thosjleeper@gmail.com"),
