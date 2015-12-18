@@ -137,3 +137,26 @@ as.data.frame.sm_response_list <- function(x, row.names, optional, details = NUL
     return(out)
 }
 
+getallresponses <- function(
+    survey,
+    api_key = getOption('sm_api_key'),
+    oauth_token = getOption('sm_oauth_token'),
+    wait = 0,
+    ...
+) {
+    r <- respondentlist(survey, api_key = api_key, oauth_token = oauth_token, ...)
+    Sys.sleep(wait)
+    respondents <- unname(sapply(r, `[`, "respondent_id"))
+    Sys.sleep(wait)
+    n <- ceiling(length(respondents)/100)
+    w <- split(1:length(respondents), rep(1:n, each = 100)[1:length(respondents)])
+    out <- list()
+    for (i in n) {
+        out <- c(out, getresponses(unlist(respondents[w[[i]]]), survey = survey, 
+                                   api_key = api_key, oauth_token = oauth_token, ...))
+        Sys.sleep(wait)
+    }
+    class(out) <- 'sm_response_list'
+    d <- surveydetails(survey, api_key = api_key, oauth_token = oauth_token, ...)
+    as.data.frame(out, details = d)
+}

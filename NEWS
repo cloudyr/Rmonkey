@@ -2,6 +2,7 @@
 
 ## SIGNIFICANT USER-VISIBLE CHANGES ##
 
+* A new function, `getallresponses()`, simplifies the process of creating a data.frame of all responses for a survey.
 * Exposed a `...` argument to `httr::POST()`, etc.
 * Transfered repository to the cloudyr project. (#9)
 * Removed dependency on RCurl.

@@ -82,6 +82,14 @@ as.data.frame(g)
 
 `getresponses` returns an object of class "sm_response_list", which has an `as.data.frame` method. Thus to convert the resulting list to a usable dataframe, simply use the standard: `as.data.frame`. Note: Survey Monkey returns variable numbers and full question wordings for each variable. The variable numbers are used to create the data.frame column names and the full question wordings are stored in a "question" attribute for each column; and all variables are encoded as factors. You may want to manually rename and recode the columns before proceeding.
 
+From v0.2.15, Rmonkey can also return a data.frame containing all responses for a survey using just one function:
+
+```R
+getallresponses(s[[1]])
+```
+
+This way there is no need to iterate through respondents, or manually call the `as.data.frame()` method. This is not widely tested, yet.
+
 
 ### Polling for new responses ###
 
