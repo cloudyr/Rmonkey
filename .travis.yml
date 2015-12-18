@@ -3,4 +3,8 @@ sudo: required
 r_github_packages:
 - eddelbuettel/drat
 after_success:
-- test $TRAVIS_PULL_REQUEST == "false" && test $TRAVIS_BRANCH == "master" && bash drat.sh
+- test $TRAVIS_PULL_REQUEST == "false" && test $TRAVIS_BRANCH == "master" && bash
+  drat.sh
+env:
+  global:
+    secure: SgjS/DmTGPq4DWEAPISk10wyiW/gROstr6b0p9I+hR9e4takg4jKz4bCfldaev3fO7LubxLMZLJ5i6c3OJsPEQbE6p65BmaG23ymuaPiNJW3WqAA/qYn6aseU5pQrSkh+DO0NQ8TA9418T5gNuDRaix4SZ1hrwYSFeiI7BQ74yo=
