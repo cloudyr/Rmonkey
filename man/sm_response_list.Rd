@@ -16,7 +16,7 @@
 \item{\dots}{Other arguments. Currently ignored.}
 }
 \details{Parses an \code{sm_response} object, or list of such objects, into a dataframe using a \code{sm_surveydetails} object to structure the result.}
-\value{A data.frame. Variable names are based upon the Survey Monkey internal \code{question_id} numbers. Question wordings are stored in a \dQuote{question} attribute in each variable. The user will have to manually rename variables.}
+\value{A data.frame. Variable names are based upon the Survey Monkey internal \code{question_id} numbers. Question wordings are stored in a \dQuote{question} attribute in each variable. The question wordings can also be extracted from a \dQuote{sm_surveydetails} object using \code{\link{surveyquestions}}. The user will have to manually rename variables.}
 %\references{}
 \author{Thomas J. Leeper}
 %\note{}
