@@ -5,7 +5,8 @@ Title: A Survey Monkey R Client
 Authors@R: c(person("Thomas J.", "Leeper", role = c("aut", "cre"),
                     email = "thosjleeper@gmail.com"),
              person("Kevin", "Little", role = "ctb", 
-                    email = "klittle@iecodesign.com"))
+                    email = "klittle@iecodesign.com"),
+             person("Stephan", "Renatus", role = "ctb"))
 Maintainer: Thomas J. Leeper <thosjleeper@gmail.com>
 Imports: httr, jsonlite, curl, plyr
 Description: Programmatic access to the Survey Monkey API <https://developer.surveymonkey.com/>, which currently provides extensive functionality for monitoring surveys and retrieving survey results and some functionality for creating new surveys and data collectors.

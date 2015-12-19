@@ -14,6 +14,10 @@
 * Returned error messages on any API error rather than just "invalid request".
 * Fixed a problem in `createsurvey()` (h/t Kevin Little, #7, #8)
 
+## DOCUMENTATION ##
+
+* Fixed an error in README example. (h/t Stephan Renatus)
+
 # CHANGES TO Rmonkey 0.2 #
 
 * Switch from **RJSONIO** to **jsonlite**

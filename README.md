@@ -174,7 +174,7 @@ This document contains the survey results:
     # retrieve responses
     s <- surveylist()
     survey <- s[[1]]
-    dat <- as.data.frame(getresponses(respondentlist(survey), survey$survey_id))
+    # dat <- getallresponses(s[[1]])
     summary(dat)
     # etc.
     ```
