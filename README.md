@@ -28,14 +28,14 @@ library("Rmonkey")
 
 ## Setup ##
 
-To use Rmonkey, the user must have a Survey Monkey account, a Mashable Survey Monkey Developer account, and a registered API application. To create a Survey Monkey account, visit https://www.surveymonkey.com/user/sign-in/. To create a Mashable developer account, visit https://developer.surveymonkey.com/member/register. Once registered, it is relatively easy to obtain an API key and secret client ID. It is then also possible to register an API application. This requires a name, OAuth redirect URL, and a brief description. In order to use Rmonkey, the redirect url must be registered as `http://localhost:1410`.
+To use Rmonkey, the user must have a Survey Monkey account, a Mashery Survey Monkey Developer account, and a registered API application. To create a Survey Monkey account, visit https://www.surveymonkey.com/user/sign-in/. To create a Mashery developer account, visit https://developer.surveymonkey.com/member/register. Once registered, it is relatively easy to obtain an API key and secret client ID. It is then also possible to register an API application. This requires a name, OAuth redirect URL, and a brief description. In order to use Rmonkey, the redirect url must be registered as `http://localhost:1410`.
 
 Once everything is registered, the relevant variables can be loaded into R using `options`:
 
 ```R
 options(sm_api_key = 'YourAPIKey')
 options(sm_secret = 'YourAPISecret')
-options(sm_client_id = 'YourMashableDeveloperUsername')
+options(sm_client_id = 'YourMasheryDeveloperUsername')
 ```
 
 Rmonkey uses these values inside `smlogin` to initiate an OAuth2.0 login. Calling `smlogin()`, you will redirected to your web browser, where you will login with your regular Survey Monkey account information. `sm_login` will then store a durable OAuth token in `options('sm_oauth_token')`, which is automatically retrieved in subsequent Rmonkey operations.
@@ -164,7 +164,7 @@ output: pdf_document
     ```{r, results = "hide", echo = "false"}
     options(sm_api_key = 'YourAPIKey')
     options(sm_secret = 'YourAPISecret')
-    options(sm_client_id = 'YourMashableDeveloperUsername')
+    options(sm_client_id = 'YourMasheryDeveloperUsername')
     options(sm_oauth_token = 'YourOAuthToken')
     ```
 
