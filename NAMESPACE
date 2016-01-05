@@ -21,6 +21,8 @@ S3method(print, 'sm_template')
 S3method(as.data.frame, 'sm_response')
 S3method(as.data.frame, 'sm_response_list')
 
+importFrom('stats', 'setNames')
+importFrom('utils', 'head')
 importFrom('plyr', 'rbind.fill')
 importFrom('curl', 'curl_escape')
 import('httr')
