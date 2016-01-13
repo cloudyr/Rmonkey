@@ -1,11 +1,13 @@
 Package: Rmonkey
-Version: 0.3.1
-Date: 2016-01-05
+Version: 0.3.2
+Date: 2016-01-13
 Title: A Survey Monkey R Client
 Authors@R: c(person("Thomas J.", "Leeper", role = c("aut", "cre"),
                     email = "thosjleeper@gmail.com"),
              person("Kevin", "Little", role = "ctb", 
                     email = "klittle@iecodesign.com"),
+             person("David", "Robinson", role = "ctb", 
+                    email = "drobinson@stackoverflow.com"),
              person("Stephan", "Renatus", role = "ctb"))
 Maintainer: Thomas J. Leeper <thosjleeper@gmail.com>
 Imports: stats, utils, httr, jsonlite, curl, plyr

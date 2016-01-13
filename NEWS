@@ -1,5 +1,12 @@
 # CHANGES TO Rmonkey 0.3 #
 
+## BUG FIXES ##
+
+* Fixed a small for-loop bug in `getallresponses()`. (#13, h/t David Robinson)
+
+
+# CHANGES TO Rmonkey 0.3 #
+
 ## SIGNIFICANT USER-VISIBLE CHANGES ##
 
 * A new function, `surveyquestions()`, returns a named character vector of question wordings from a "sm_surveydetails" object. This can be useful for quickly mapping question IDs (which are used as variable names in `getresponses()` and `getallresponses()`) to original question wordings. (#11)
