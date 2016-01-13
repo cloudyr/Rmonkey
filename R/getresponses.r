@@ -151,7 +151,7 @@ getallresponses <- function(
     n <- ceiling(length(respondents)/100)
     w <- split(1:length(respondents), rep(1:n, each = 100)[1:length(respondents)])
     out <- list()
-    for (i in n) {
+    for (i in seq_len(n)) {
         out <- c(out, getresponses(unlist(respondents[w[[i]]]), survey = survey, 
                                    api_key = api_key, oauth_token = oauth_token, ...))
         Sys.sleep(wait)
