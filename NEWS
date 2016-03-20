@@ -1,4 +1,8 @@
-# CHANGES TO Rmonkey 0.3 #
+# CHANGES TO Rmonkey 0.4 #
+
+## SIGNIFICANT USER-VISIBLE CHANGES ##
+
+* A new function, `surveypreview()`, opens a survey's preview URL from a "sm_surveydetails" object via a web browser.
 
 ## BUG FIXES ##
 

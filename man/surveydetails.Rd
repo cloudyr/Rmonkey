@@ -9,6 +9,8 @@ surveydetails(survey, api_key = getOption('sm_api_key'),
 
 surveyquestions(survey, details, api_key = getOption('sm_api_key'),
                 oauth_token = getOption('sm_oauth_token'), ...)
+
+surveypreview(details)
 }
 \arguments{
 \item{survey}{A Survey Monkey survey ID number (or an object of class \dQuote{sm_survey} from which it can be extracted), possibly returned by \code{\link{surveylist}}. For \code{surveyquestions}, either \code{survey} or \code{details} must be supplied.}
@@ -21,6 +23,8 @@ surveyquestions(survey, details, api_key = getOption('sm_api_key'),
 \code{surveydetails} retrieves details of a specified survey (e.g., question metadata). Surveys with over 200 survey pages will not be returned. Surveys with over 200 questions will not be returned.
 
 \code{surveyquestions} extracts a named character vector of question wordings from a \dQuote{sm_surveydetails} object. This can be useful for creating a codebook of responses or for mapping responses (from \code{\link{getresponses}}) to the original question wordings.
+
+\code{surveypreview} opens a survey preview url in a web browser via \code{\link[utils]{browseURL}}.
 }
 \value{For \code{surveydetails}, a list of objects of class \code{sm_survey}. For \code{surveyquestions}, a character vector with Survey Monkey question ID values as names.}
 \references{

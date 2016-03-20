@@ -46,3 +46,6 @@ surveyquestions <- function(
     structure(w, names = n, class = c("character", "sm_surveyquestions"))
 }
 
+surveypreview <- function(details) {
+    browseURL(details$preview_url)
+}
