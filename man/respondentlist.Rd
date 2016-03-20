@@ -45,7 +45,7 @@ The \code{fields} argument accepts one or more of the following values: \code{da
 \dontrun{
 smlogin()
 s <- surveylist()
-respondentlist(s[[1]]$survey_id)
+respondentlist(s[[1]])
 }
 }
 %\keyword{}

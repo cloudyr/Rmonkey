@@ -74,7 +74,7 @@ Retrieving results using **Rmonkey** is also relatively easy but involves two st
 ```R
 s <- surveylist() # to retrieve the survey id for your survey, if you don't already know it
 r <- respondentlist(s[[1]])
-g <- getresponses(r, s[[1]])
+g <- getresponses(r)
 
 # convert `g` to data.frame:
 as.data.frame(g)

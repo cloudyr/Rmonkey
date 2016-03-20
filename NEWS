@@ -2,6 +2,7 @@
 
 ## SIGNIFICANT USER-VISIBLE CHANGES ##
 
+* `respondentlist()` now stores the "survey_id" value for a survey in each response element so that `getresponses()` can be called without needing to specify a `survey` value.
 * A new function, `surveypreview()`, opens a survey's preview URL from a "sm_surveydetails" object via a web browser.
 
 ## BUG FIXES ##

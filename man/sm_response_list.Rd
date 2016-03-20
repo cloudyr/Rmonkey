@@ -28,7 +28,7 @@ s <- surveylist()
 r <- respondentlist(s[[1]])
 
 # get all responses (up to 100)
-a <- getresponses(lapply(r[[1]], function(x) `[`, 'respondent_id'), s[[1]])
+a <- getresponses(r)
 as.data.frame(a)
 }
 }
