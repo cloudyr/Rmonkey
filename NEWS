@@ -7,6 +7,7 @@
 
 ## BUG FIXES ##
 
+* Some changes were made to `as.data.frame()` to attempt bug fixes associated with matrix questions. (#14)
 * Fixed a small for-loop bug in `getallresponses()`. (#13, h/t David Robinson)
 
 
