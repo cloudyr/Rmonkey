@@ -1,6 +1,7 @@
 \name{surveydetails}
 \alias{surveydetails}
 \alias{surveyquestions}
+\alias{surveypreview}
 \title{Get survey details}
 \description{Get details about a specific survey}
 \usage{
