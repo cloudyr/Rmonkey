@@ -1,3 +1,22 @@
+extract_questions_from_pages <- function(details) {
+    do.call('c', lapply(details$pages, function(i) i[['questions']]))
+}
+
+flatten_questions <- function(questions) {
+    questions
+}
+
+get_question_types <- function(questions) {
+    sapply(questions, function(i) {
+        fam <- i$type$family
+        if (fam == "matrix") {
+            setNames(paste0(fam, "_", i$type$subtype), i$question_id)
+        } else {
+            setNames(fam, i$question_id)
+        }
+    })
+}
+
 as.data.frame.sm_response <- function(x, row.names, optional, details = NULL, stringsAsFactors = FALSE, ...){
     if (is.null(details) && !is.null(attr(x, 'survey_id'))) {
         details <- surveydetails(survey = attr(x, 'survey_id'))
@@ -13,16 +32,13 @@ as.data.frame.sm_response <- function(x, row.names, optional, details = NULL, st
         stop("'details' is missing and cannot be determined automatically")
     }
     # extract all questions from the `question` element in all pages
-    questions <- do.call('c', lapply(details$pages, function(i) i[['questions']]))
-    # `type` contains info about each question type
-    qtypes <- sapply(questions, function(i) {
-        fam <- i$type$family
-        if (fam == "matrix") {
-            setNames(paste0(fam, "_", i$type$subtype), i$question_id)
-        } else {
-            setNames(fam, i$question_id)
-        }
-    })
+    questions <- extract_questions_from_pages(details)
+    
+    ## here, need to expand so multi-column/multi-row questions are duplicated
+    
+    # `qtypes` contains info about each question type
+    qtypes <- get_question_types(questions)
+    
     # set variable names
     varnames <- sapply(questions, function(i) {
         # `heading` is the display text
