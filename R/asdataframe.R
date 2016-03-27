@@ -1,9 +1,88 @@
+find_details <- function(x, details) {
+    if (is.null(details) && !is.null(attr(x, 'survey_id'))) {
+        details <- surveydetails(survey = attr(x, 'survey_id'))
+    } else if (!is.null(details)) {
+        if (inherits(details, 'sm_survey')) {
+            details <- details
+        } else if (is.character(details)) {
+            details <- surveydetails(survey = details[1])
+        } else {
+            stop("'details' is not character or an 'sm_survey' object")
+        }
+    } else {
+        stop("'details' is missing and cannot be determined automatically")
+    }
+    return(details)
+}
+
 extract_questions_from_pages <- function(details) {
     do.call('c', lapply(details$pages, function(i) i[['questions']]))
 }
 
-flatten_questions <- function(questions) {
-    questions
+get_question_types <- function(questions) {
+    unname(unlist(lapply(questions, function(x) {
+        paste0(x$type$family, "_", x$type$subtype)
+    })))
+}
+
+expand_questions <- function(questions) {
+    out <- list()
+    
+    # extract types
+    types <- get_question_types(questions)
+    # types and subtypes
+    ## single_choice
+        # vertical
+    ## matrix
+        # single
+        # rating
+        # ranking
+        # menu
+    ## open_ended
+        # single
+        # multi
+        # numerical
+    ## demographic
+        # international
+    ## datetime
+        # both
+    
+    # loop through questions, flattening as needed
+    not_done <- TRUE
+    i <- 1
+    j <- 1
+    while (not_done) {
+        if (types[i] == "single_choice") {
+            out[[j]] <- questions[[i]]
+        } else if (types[i] == "multiple_choice") {
+            out[[j]] <- questions[[i]]
+        } else if (types[i] == "matrix_single") {
+            out[[j]] <- questions[[i]]
+        } else if (types[i] == "matrix_rating") {
+            out[[j]] <- questions[[i]]
+        } else if (types[i] == "matrix_ranking") {
+            out[[j]] <- questions[[i]]
+        } else if (types[i] == "matrix_menu") {
+            out[[j]] <- questions[[i]]
+        } else if (types[i] == "open_ended") {
+            out[[j]] <- questions[[i]]
+        } else if (types[i] == "demographic") {
+            out[[j]] <- questions[[i]]
+        } else if (types[i] == "matrix_rating") {
+            out[[j]] <- questions[[i]]
+        } else {
+            out[[j]] <- questions[[i]]
+        }
+        if (i == length(questions)) {
+            not_done <- FALSE
+        } else {
+            i <- i + 1
+            j <- j + 1
+        }
+    }
+    
+    # return updated structure
+    return(out)
 }
 
 get_question_types <- function(questions) {
@@ -18,23 +97,14 @@ get_question_types <- function(questions) {
 }
 
 as.data.frame.sm_response <- function(x, row.names, optional, details = NULL, stringsAsFactors = FALSE, ...){
-    if (is.null(details) && !is.null(attr(x, 'survey_id'))) {
-        details <- surveydetails(survey = attr(x, 'survey_id'))
-    } else if (!is.null(details)) {
-        if (inherits(details, 'sm_survey')) {
-            details <- details
-        } else if (is.character(details)) {
-            details <- surveydetails(survey = details[1])
-        } else {
-            stop("'details' is not character or an 'sm_survey' object")
-        }
-    } else {
-        stop("'details' is missing and cannot be determined automatically")
-    }
+    # find details if not supplied
+    details <- find_details(x, details)
+    
     # extract all questions from the `question` element in all pages
     questions <- extract_questions_from_pages(details)
     
     ## here, need to expand so multi-column/multi-row questions are duplicated
+    questions <- expand_questions(questions)
     
     # `qtypes` contains info about each question type
     qtypes <- get_question_types(questions)
