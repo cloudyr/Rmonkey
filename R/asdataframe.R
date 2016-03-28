@@ -19,53 +19,59 @@ extract_questions_from_pages <- function(details) {
     do.call('c', lapply(details$pages, function(i) i[['questions']]))
 }
 
-get_question_types <- function(questions) {
-    unname(unlist(lapply(questions, function(x) {
-        paste0(x$type$family, "_", x$type$subtype)
-    })))
+flatten_options <- function(answers) {
+    id <- lapply(answers, `[[`, "answer_id")
+    text <- lapply(answers, `[[`, "text")
+    setNames(text, id)
 }
 
 expand_questions <- function(questions) {
+    
+    # setup return object
     out <- list()
     
     # extract types
     types <- get_question_types(questions)
-    # types and subtypes
-    ## single_choice
-        # vertical
-    ## matrix
-        # single
-        # rating
-        # ranking
-        # menu
-    ## open_ended
-        # single
-        # multi
-        # numerical
-    ## demographic
-        # international
-    ## datetime
-        # both
     
     # loop through questions, flattening as needed
     not_done <- TRUE
     i <- 1
     j <- 1
     while (not_done) {
-        if (types[i] == "single_choice") {
-            out[[j]] <- questions[[i]]
-        } else if (types[i] == "multiple_choice") {
-            out[[j]] <- questions[[i]]
+        if (types[i] == "single_choice_vertical") {
+            out[[j]] <- flatten_options(questions[[i]][["answers"]])
+            names(out)[j] <- questions[[i]][["question_id"]]
+        } else if (types[i] == "single_choice_horizontal") {
+            out[[j]] <- flatten_options(questions[[i]][["answers"]])
+            names(out)[j] <- questions[[i]][["question_id"]]
+        } else if (types[i] == "multiple_choice_vertical") {
+            out[[j]] <- flatten_options(questions[[i]][["answers"]])
+            names(out)[j] <- questions[[i]][["question_id"]]
+        } else if (types[i] == "multiple_choice_horizontal") {
+            out[[j]] <- flatten_options(questions[[i]][["answers"]])
+            names(out)[j] <- questions[[i]][["question_id"]]
         } else if (types[i] == "matrix_single") {
             out[[j]] <- questions[[i]]
         } else if (types[i] == "matrix_rating") {
-            out[[j]] <- questions[[i]]
+            types <- sapply(questions[[i]][["answers"]], `[[`, "type")
+            rows <- which(types %in% c("row", "other"))
+            cols <- which(types == "col")
+            opts <- flatten_options(questions[[i]][["answers"]][cols])
+            for (k in seq_along(questions[[i]][["answers"]])) {
+                out[[j]] <- questions[[i]]
+                names(out)[j] <- questions[[i]][["question_id"]]
+                j <- j + 1
+            }
         } else if (types[i] == "matrix_ranking") {
             out[[j]] <- questions[[i]]
         } else if (types[i] == "matrix_menu") {
             out[[j]] <- questions[[i]]
-        } else if (types[i] == "open_ended") {
-            out[[j]] <- questions[[i]]
+        } else if (types[i] == "open_ended_single") {
+            out[[j]] <- questions[[i]][["answers"]]
+            names(out)[j] <- questions[[i]][["question_id"]]
+        } else if (types[i] == "open_ended_multiple") {
+            out[[j]] <- questions[[i]][["answers"]]
+            names(out)[j] <- questions[[i]][["question_id"]]
         } else if (types[i] == "demographic") {
             out[[j]] <- questions[[i]]
         } else if (types[i] == "matrix_rating") {
@@ -87,8 +93,7 @@ expand_questions <- function(questions) {
 
 get_question_types <- function(questions) {
     sapply(questions, function(i) {
-        fam <- i$type$family
-        if (fam == "matrix") {
+        if (!is.null(i$type$subtype)) {
             setNames(paste0(fam, "_", i$type$subtype), i$question_id)
         } else {
             setNames(fam, i$question_id)
@@ -96,29 +101,7 @@ get_question_types <- function(questions) {
     })
 }
 
-as.data.frame.sm_response <- function(x, row.names, optional, details = NULL, stringsAsFactors = FALSE, ...){
-    # find details if not supplied
-    details <- find_details(x, details)
-    
-    # extract all questions from the `question` element in all pages
-    questions <- extract_questions_from_pages(details)
-    
-    ## here, need to expand so multi-column/multi-row questions are duplicated
-    questions <- expand_questions(questions)
-    
-    # `qtypes` contains info about each question type
-    qtypes <- get_question_types(questions)
-    
-    # set variable names
-    varnames <- sapply(questions, function(i) {
-        # `heading` is the display text
-        setNames(i$heading, i$question_id)
-    })
-    
-    # extract all answers from the `answers` elements of each subelement of `question`
-        # `answer_id` is what is recorded in `sm_response`
-        # `text` is the display seen by respondents
-        # `answers` is empty for "open_ended" type questions
+extract_answer_choices <- function(questions) {
     answerchoices <- sapply(questions, function(i) {
                         out <- list()
                         for (k in seq_along(i$answers)) {
@@ -149,6 +132,40 @@ as.data.frame.sm_response <- function(x, row.names, optional, details = NULL, st
                         return(unlist(out))
                      })
     answerchoices <- unlist(do.call(c, answerchoices))
+    return(answerchoices)
+}
+
+as.data.frame.sm_response <- function(x, row.names, optional, details = NULL, stringsAsFactors = FALSE, ...){
+    # find details if not supplied
+    details <- find_details(x, details)
+    
+    # extract all questions from the `question` element in all pages
+    questions <- extract_questions_from_pages(details)
+    
+    # extract all answers from the `answers` elements of each subelement of `question`
+        # `answer_id` is what is recorded in `sm_response`
+        # `text` is the display seen by respondents
+        # `answers` is empty for "open_ended" type questions
+    answerchoices <- extract_answer_choices(questions)
+    
+    ## here, need to expand so multi-column/multi-row questions are duplicated
+    #questions <- expand_questions(questions)
+    
+    # `qtypes` contains info about each question type
+    qtypes <- get_question_types(questions)
+    
+    # set variable names
+    varnames <- sapply(questions, function(i) {
+        # `heading` is the display text
+        setNames(i$heading, i$question_id)
+    })
+    
+    # response data
+    respondent <- x[["respondent_id"]]
+    answers <- setNames(lapply(x[["questions"]], `[[`, "answers"),
+                        sapply(x[["questions"]], `[[`, "question_id"))
+    
+    
     # extract question_ids
     question_ids <- unlist(sapply(x$questions, `[`, 'question_id'))
     # count number of answers per question
