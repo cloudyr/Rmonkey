@@ -3,6 +3,7 @@
 [![Build Status](https://travis-ci.org/cloudyr/Rmonkey.png?branch=master)](https://travis-ci.org/cloudyr/Rmonkey)
 [![CRAN Version](http://www.r-pkg.org/badges/version/Rmonkey)](http://cran.r-project.org/package=Rmonkey)
 ![Downloads](http://cranlogs.r-pkg.org/badges/Rmonkey)
+[![Project Status: Inactive - The project has reached a stable, usable state but is no longer being actively developed; support/maintenance will be provided as time allows.](http://www.repostatus.org/badges/latest/inactive.svg)](http://www.repostatus.org/#inactive)
 
 **Rmonkey** provides access to [Survey Monkey](https://www.surveymonkey.com/), for the complete integration of survey data collection and analysis into a single, easily reproducible workflow.
 
